@@ -7,7 +7,8 @@ import {
   BarChart3,
   PieChart as PieIcon,
   ShieldAlert,
-  ArrowRight
+  ArrowRight,
+  ExternalLink
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import {
@@ -288,11 +289,11 @@ export default function Dashboard() {
             <thead>
               <tr className="border-b border-navy-700 text-slate-400 uppercase tracking-wider">
                 <th className="py-3 px-4">ID</th>
-                <th className="py-3 px-4">Product Name</th>
+                <th className="py-3 px-4">Brand Name</th>
                 <th className="py-3 px-4">Category</th>
-                <th className="py-3 px-4">Package Size</th>
-                <th className="py-3 px-4">Demo Value</th>
-                <th className="py-3 px-4">Data Type</th>
+                <th className="py-3 px-4">Package</th>
+                <th className="py-3 px-4">Base MRP</th>
+                <th className="py-3 px-4">Official Link</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-navy-700/60 text-slate-300">
@@ -310,9 +311,19 @@ export default function Dashboard() {
                     ₹{Number(p.demo_value).toLocaleString('en-IN')}
                   </td>
                   <td className="py-3 px-4">
-                    <span className="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-300">
-                      FICTIONAL
-                    </span>
+                    {p.brand_url ? (
+                      <a
+                        href={p.brand_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-brand-cyan hover:underline"
+                      >
+                        <span>Official Website</span>
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
+                    ) : (
+                      <span className="text-slate-500">N/A</span>
+                    )}
                   </td>
                 </tr>
               ))}

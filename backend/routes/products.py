@@ -37,6 +37,7 @@ def create_product():
     package_size = data.get('package_size', '').strip()
     description = data.get('description', '').strip()
     demo_value = data.get('demo_value')
+    brand_url = data.get('brand_url', '').strip()
 
     if not name or not category or not package_size or demo_value is None:
         return jsonify({
@@ -51,10 +52,10 @@ def create_product():
     except ValueError:
         return jsonify({"status": "error", "message": "demo_value must be a positive number"}), 400
 
-    new_id = ProductModel.create(name, category, package_size, description, val)
+    new_id = ProductModel.create(name, category, package_size, description, val, brand_url)
     return jsonify({
         "status": "success",
-        "message": "Fictional sample product created successfully",
+        "message": "Sample product created successfully",
         "id": new_id
     }), 201
 
@@ -66,6 +67,7 @@ def update_product(product_id):
     package_size = data.get('package_size', '').strip()
     description = data.get('description', '').strip()
     demo_value = data.get('demo_value')
+    brand_url = data.get('brand_url', '').strip()
 
     if not name or not category or not package_size or demo_value is None:
         return jsonify({
@@ -80,13 +82,13 @@ def update_product(product_id):
     except ValueError:
         return jsonify({"status": "error", "message": "demo_value must be a positive number"}), 400
 
-    updated = ProductModel.update(product_id, name, category, package_size, description, val)
+    updated = ProductModel.update(product_id, name, category, package_size, description, val, brand_url)
     if not updated:
         return jsonify({"status": "error", "message": "Product not found or not modified"}), 404
 
     return jsonify({
         "status": "success",
-        "message": "Fictional sample product updated successfully"
+        "message": "Sample product updated successfully"
     }), 200
 
 @products_bp.route('/products/<int:product_id>', methods=['DELETE'])

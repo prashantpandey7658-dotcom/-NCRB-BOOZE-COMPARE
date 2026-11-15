@@ -33,9 +33,16 @@ def init_db():
         package_size TEXT NOT NULL,
         description TEXT,
         demo_value REAL NOT NULL,
-        is_fictional BOOLEAN DEFAULT 1
+        brand_url TEXT,
+        is_fictional BOOLEAN DEFAULT 0
     );
     """)
+
+    # Ensure brand_url column exists if table was created earlier
+    try:
+        cursor.execute("ALTER TABLE products ADD COLUMN brand_url TEXT;")
+    except sqlite3.OperationalError:
+        pass # Column already exists
 
     # Table 2: regions
     cursor.execute("""

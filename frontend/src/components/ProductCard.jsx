@@ -1,21 +1,30 @@
 import React from 'react';
-import { Check, Plus, Wine, Tag } from 'lucide-react';
+import { Check, Plus, Wine, Tag, ExternalLink } from 'lucide-react';
 
 export default function ProductCard({ product, isSelected, onToggleSelect }) {
   return (
     <div className={`relative flex flex-col justify-between p-5 rounded-2xl bg-navy-800 border transition-all duration-200 hover:border-slate-500 hover:shadow-lg ${
       isSelected ? 'border-brand-cyan ring-1 ring-brand-cyan/50 bg-navy-800/90' : 'border-navy-700'
     }`}>
-      {/* Category and Fictional Badge */}
+      {/* Category and Benchmark Badge */}
       <div>
         <div className="flex items-center justify-between gap-2 mb-3">
           <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-500/10 text-brand-cyan border border-blue-500/20">
             <Tag className="w-3 h-3" />
             {product.category}
           </span>
-          <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20">
-            DEMO DATA
-          </span>
+          {product.brand_url && (
+            <a
+              href={product.brand_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-[11px] font-semibold text-brand-cyan/90 hover:text-white transition"
+              title="Visit official brand website"
+            >
+              <span>Official Link</span>
+              <ExternalLink className="w-3 h-3" />
+            </a>
+          )}
         </div>
 
         {/* Product Title */}
@@ -31,14 +40,14 @@ export default function ProductCard({ product, isSelected, onToggleSelect }) {
 
         {/* Narrative Description */}
         <p className="text-xs text-slate-300 line-clamp-2 mt-2 leading-relaxed">
-          {product.description || 'Fictional sample beverage record for academic comparison algorithms.'}
+          {product.description || 'Beverage record for academic regional comparison algorithms.'}
         </p>
       </div>
 
       {/* Pricing & Compare Toggle */}
       <div className="mt-5 pt-4 border-t border-navy-700 flex items-center justify-between">
         <div>
-          <span className="text-[10px] text-slate-400 block uppercase font-medium">Demo Price</span>
+          <span className="text-[10px] text-slate-400 block uppercase font-medium">Indicative MRP</span>
           <span className="text-lg font-extrabold text-white">
             ₹{product.demo_value ? Number(product.demo_value).toLocaleString('en-IN') : '0'}
           </span>

@@ -6,7 +6,8 @@ import {
   BarChart3,
   Layers,
   ShieldAlert,
-  Info
+  Info,
+  ExternalLink
 } from 'lucide-react';
 import {
   Chart as ChartJS,
@@ -208,9 +209,10 @@ export default function RegionComparison() {
                 <th className="py-3 px-4">Product Name</th>
                 <th className="py-3 px-4">Category</th>
                 <th className="py-3 px-4">Package</th>
-                <th className="py-3 px-4">Base Demo Price</th>
-                <th className="py-3 px-4">Regional Demo Price</th>
+                <th className="py-3 px-4">Base MRP</th>
+                <th className="py-3 px-4">Regional MRP</th>
                 <th className="py-3 px-4">Variance (%)</th>
+                <th className="py-3 px-4">Official Link</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-navy-700/60 text-slate-300">
@@ -241,6 +243,21 @@ export default function RegionComparison() {
                       }`}>
                         {isPositive ? `+${pct}%` : `${pct}%`}
                       </span>
+                    </td>
+                    <td className="py-3 px-4">
+                      {item.brand_url ? (
+                        <a
+                          href={item.brand_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-brand-cyan hover:underline"
+                        >
+                          <span>Site</span>
+                          <ExternalLink className="w-3 h-3" />
+                        </a>
+                      ) : (
+                        <span className="text-slate-500">N/A</span>
+                      )}
                     </td>
                   </tr>
                 );

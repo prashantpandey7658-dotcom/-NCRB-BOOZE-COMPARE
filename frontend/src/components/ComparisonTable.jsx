@@ -1,12 +1,12 @@
 import React from 'react';
-import { X, ArrowDownRight, ArrowUpRight, CheckCircle2 } from 'lucide-react';
+import { X, ArrowDownRight, ArrowUpRight, ExternalLink } from 'lucide-react';
 
 export default function ComparisonTable({ products, onRemoveProduct }) {
   if (!products || products.length === 0) {
     return (
       <div className="p-8 text-center rounded-2xl bg-navy-800 border border-navy-700 text-slate-400">
-        <p className="text-sm">No sample products selected for comparison.</p>
-        <p className="text-xs text-slate-500 mt-1">Select at least two products to inspect side-by-side differences.</p>
+        <p className="text-sm">No products selected for comparison.</p>
+        <p className="text-xs text-slate-500 mt-1">Select at least two brands to inspect side-by-side differences.</p>
       </div>
     );
   }
@@ -21,11 +21,11 @@ export default function ComparisonTable({ products, onRemoveProduct }) {
       <table className="w-full text-left border-collapse text-sm">
         <thead>
           <tr className="border-b border-navy-700 bg-navy-900/60">
-            <th className="p-4 text-xs font-bold uppercase tracking-wider text-slate-400 w-44">
+            <th className="p-4 text-xs font-bold uppercase tracking-wider text-slate-400 w-48">
               Attribute
             </th>
             {products.map((p) => (
-              <th key={p.id} className="p-4 text-white min-w-[200px]">
+              <th key={p.id} className="p-4 text-white min-w-[220px]">
                 <div className="flex items-center justify-between gap-2">
                   <span className="font-bold text-base text-brand-cyan">{p.name}</span>
                   {onRemoveProduct && (
@@ -69,10 +69,34 @@ export default function ComparisonTable({ products, onRemoveProduct }) {
             ))}
           </tr>
 
-          {/* Base Demo Value */}
+          {/* Official Brand Link */}
           <tr className="hover:bg-navy-700/20">
             <td className="p-4 text-xs font-semibold uppercase text-slate-400 bg-navy-900/30">
-              Base Demo Value
+              Official Link
+            </td>
+            {products.map((p) => (
+              <td key={p.id} className="p-4">
+                {p.brand_url ? (
+                  <a
+                    href={p.brand_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold bg-blue-600/20 text-brand-cyan hover:bg-blue-600/30 border border-blue-500/30 transition"
+                  >
+                    <span>Visit Brand Page</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                ) : (
+                  <span className="text-xs text-slate-500">N/A</span>
+                )}
+              </td>
+            ))}
+          </tr>
+
+          {/* Benchmark Base MRP */}
+          <tr className="hover:bg-navy-700/20">
+            <td className="p-4 text-xs font-semibold uppercase text-slate-400 bg-navy-900/30">
+              Base Indicative MRP
             </td>
             {products.map((p) => {
               const isMin = products.length > 1 && p.demo_value === minVal;
@@ -99,13 +123,13 @@ export default function ComparisonTable({ products, onRemoveProduct }) {
             })}
           </tr>
 
-          {/* Demo Zone 1 */}
+          {/* Delhi Zone */}
           <tr className="hover:bg-navy-700/20">
             <td className="p-4 text-xs font-semibold uppercase text-slate-400 bg-navy-900/30">
-              Demo Zone 1 (Baseline)
+              Delhi Zone (NCT MRP)
             </td>
             {products.map((p) => {
-              const reg = p.regional_values?.find((r) => r.region_name === 'Demo Zone 1');
+              const reg = p.regional_values?.find((r) => r.region_name.includes('Delhi'));
               const val = reg ? reg.demo_value : p.demo_value;
               return (
                 <td key={p.id} className="p-4 font-medium text-slate-300">
@@ -115,46 +139,46 @@ export default function ComparisonTable({ products, onRemoveProduct }) {
             })}
           </tr>
 
-          {/* Demo Zone 2 */}
+          {/* Gurugram Zone */}
           <tr className="hover:bg-navy-700/20">
             <td className="p-4 text-xs font-semibold uppercase text-slate-400 bg-navy-900/30">
-              Demo Zone 2 (+12.5%)
+              Gurugram Zone (~10% Lower)
             </td>
             {products.map((p) => {
-              const reg = p.regional_values?.find((r) => r.region_name === 'Demo Zone 2');
-              const val = reg ? reg.demo_value : Math.round(p.demo_value * 1.125);
+              const reg = p.regional_values?.find((r) => r.region_name.includes('Gurugram'));
+              const val = reg ? reg.demo_value : Math.round(p.demo_value * 0.9);
               return (
-                <td key={p.id} className="p-4 font-medium text-slate-300">
+                <td key={p.id} className="p-4 font-medium text-emerald-400">
                   ₹{Number(val).toLocaleString('en-IN')}
                 </td>
               );
             })}
           </tr>
 
-          {/* Demo Zone 3 */}
+          {/* Noida Zone */}
           <tr className="hover:bg-navy-700/20">
             <td className="p-4 text-xs font-semibold uppercase text-slate-400 bg-navy-900/30">
-              Demo Zone 3 (-8.3%)
+              Noida Zone (UP Duty)
             </td>
             {products.map((p) => {
-              const reg = p.regional_values?.find((r) => r.region_name === 'Demo Zone 3');
-              const val = reg ? reg.demo_value : Math.round(p.demo_value * 0.917);
+              const reg = p.regional_values?.find((r) => r.region_name.includes('Noida'));
+              const val = reg ? reg.demo_value : Math.round(p.demo_value * 1.08);
               return (
-                <td key={p.id} className="p-4 font-medium text-slate-300">
+                <td key={p.id} className="p-4 font-medium text-amber-300">
                   ₹{Number(val).toLocaleString('en-IN')}
                 </td>
               );
             })}
           </tr>
 
-          {/* Demo Zone 4 */}
+          {/* Faridabad Zone */}
           <tr className="hover:bg-navy-700/20">
             <td className="p-4 text-xs font-semibold uppercase text-slate-400 bg-navy-900/30">
-              Demo Zone 4 (+20.8%)
+              Faridabad Zone (Haryana)
             </td>
             {products.map((p) => {
-              const reg = p.regional_values?.find((r) => r.region_name === 'Demo Zone 4');
-              const val = reg ? reg.demo_value : Math.round(p.demo_value * 1.208);
+              const reg = p.regional_values?.find((r) => r.region_name.includes('Faridabad'));
+              const val = reg ? reg.demo_value : Math.round(p.demo_value * 0.92);
               return (
                 <td key={p.id} className="p-4 font-medium text-slate-300">
                   ₹{Number(val).toLocaleString('en-IN')}
@@ -166,7 +190,7 @@ export default function ComparisonTable({ products, onRemoveProduct }) {
           {/* Description */}
           <tr className="hover:bg-navy-700/20">
             <td className="p-4 text-xs font-semibold uppercase text-slate-400 bg-navy-900/30">
-              Description
+              Brand Profile
             </td>
             {products.map((p) => (
               <td key={p.id} className="p-4 text-xs text-slate-400 leading-relaxed">
