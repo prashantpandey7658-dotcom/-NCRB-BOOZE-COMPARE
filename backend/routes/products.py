@@ -40,6 +40,7 @@ def create_product():
     brand_url = data.get('brand_url', '').strip()
     image_url = data.get('image_url', '').strip()
     availability = data.get('availability', 'Available in major authorized NCR excise vends').strip()
+    abv = data.get('abv', '40%').strip()
 
     if not name or not category or not package_size or demo_value is None:
         return jsonify({
@@ -54,7 +55,7 @@ def create_product():
     except ValueError:
         return jsonify({"status": "error", "message": "demo_value must be a positive number"}), 400
 
-    new_id = ProductModel.create(name, category, package_size, description, val, brand_url, image_url, availability)
+    new_id = ProductModel.create(name, category, package_size, description, val, brand_url, image_url, availability, abv)
     return jsonify({
         "status": "success",
         "message": "Product created successfully",
@@ -72,6 +73,7 @@ def update_product(product_id):
     brand_url = data.get('brand_url', '').strip()
     image_url = data.get('image_url', '').strip()
     availability = data.get('availability', '').strip()
+    abv = data.get('abv', '40%').strip()
 
     if not name or not category or not package_size or demo_value is None:
         return jsonify({
@@ -86,7 +88,7 @@ def update_product(product_id):
     except ValueError:
         return jsonify({"status": "error", "message": "demo_value must be a positive number"}), 400
 
-    updated = ProductModel.update(product_id, name, category, package_size, description, val, brand_url, image_url, availability)
+    updated = ProductModel.update(product_id, name, category, package_size, description, val, brand_url, image_url, availability, abv)
     if not updated:
         return jsonify({"status": "error", "message": "Product not found or not modified"}), 404
 

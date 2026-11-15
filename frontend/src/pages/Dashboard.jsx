@@ -9,7 +9,8 @@ import {
   ShieldCheck,
   ArrowRight,
   ExternalLink,
-  Wine
+  Wine,
+  Search
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import {
@@ -38,6 +39,7 @@ ChartJS.register(
 export default function Dashboard() {
   const [analytics, setAnalytics] = useState(null);
   const [products, setProducts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -49,6 +51,16 @@ export default function Dashboard() {
       .catch((err) => console.error('Dashboard data load error:', err))
       .finally(() => setLoading(false));
   }, []);
+
+  const displayedProducts = products.filter((p) => {
+    if (!searchTerm) return true;
+    const term = searchTerm.toLowerCase();
+    return (
+      p.name.toLowerCase().includes(term) ||
+      p.category.toLowerCase().includes(term) ||
+      (p.availability && p.availability.toLowerCase().includes(term))
+    );
+  });
 
   if (loading) {
     return (
@@ -273,25 +285,41 @@ export default function Dashboard() {
       </div>
 
       {/* Quick Products Overview Table */}
-      <div className="p-6 rounded-2xl bg-lounge-800 border border-lounge-700 space-y-4">
-        <div className="flex items-center justify-between">
+      <div className="p-6 rounded-2xl bg-lounge-850 border border-lounge-750 space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <h3 className="font-bold text-white text-base">Tracked Brands & Retail Index</h3>
-            <p className="text-xs text-stone-400">Direct price index across active beverage records.</p>
+            <p className="text-xs text-stone-400">
+              Showing {displayedProducts.length} of {products.length} bottles in catalog.
+            </p>
           </div>
-          <Link
-            to="/compare"
-            className="text-xs font-bold text-amber-400 hover:text-amber-300 flex items-center gap-1"
-          >
-            <span>Open Comparison Matrix</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
+
+          <div className="flex items-center gap-3">
+            <div className="relative w-full sm:w-64">
+              <Search className="w-3.5 h-3.5 absolute left-3 top-3 text-stone-400" />
+              <input
+                type="text"
+                placeholder="Search catalog..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full bg-lounge-900 border border-lounge-700 focus:border-amber-400 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-stone-500 focus:outline-none"
+              />
+            </div>
+
+            <Link
+              to="/compare"
+              className="text-xs font-bold text-amber-400 hover:text-amber-300 flex items-center gap-1 whitespace-nowrap"
+            >
+              <span>Compare</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
-              <tr className="border-b border-lounge-700 text-stone-400 uppercase tracking-wider font-semibold">
+              <tr className="border-b border-lounge-750 text-stone-400 uppercase tracking-wider font-semibold">
                 <th className="py-3 px-4">Brand</th>
                 <th className="py-3 px-4">Category</th>
                 <th className="py-3 px-4">Package</th>
@@ -301,7 +329,7 @@ export default function Dashboard() {
               </tr>
             </thead>
             <tbody className="divide-y divide-lounge-750 text-stone-300">
-              {products.map((p) => (
+              {displayedProducts.map((p) => (
                 <tr key={p.id} className="hover:bg-lounge-750/50">
                   <td className="py-3 px-4 font-bold text-white flex items-center gap-2.5">
                     {p.image_url && (

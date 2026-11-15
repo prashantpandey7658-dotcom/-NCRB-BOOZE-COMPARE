@@ -1,7 +1,7 @@
 """
 Flask Backend Application for NCRB BOOZE COMPARE.
 Author: Prashant Pandey
-Project Type: College Academic Demonstration Project
+Platform: NCR Regional Beverage & Excise Benchmark Portal
 """
 
 import os
@@ -25,7 +25,7 @@ from routes.chatbot_routes import chatbot_bp
 
 def create_app():
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'college-demo-dev-key')
+    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'ncrb-luxury-cellar-secret-key-2026')
 
     # Enable Cross-Origin Resource Sharing (CORS)
     CORS(app, resources={r"/api/*": {"origins": "*"}})
@@ -39,9 +39,8 @@ def create_app():
     def root():
         return jsonify({
             "project": "NCRB BOOZE COMPARE",
-            "student": "Prashant Pandey",
-            "type": "College Academic Project",
-            "disclaimer": "COLLEGE DEMONSTRATION PROJECT - FICTIONAL DATA ONLY",
+            "developer": "Prashant Pandey",
+            "platform": "NCR Regional Beverage & Excise Price Benchmark",
             "api_documentation": "/api/health",
             "status": "Online"
         })
@@ -51,7 +50,7 @@ def create_app():
         return jsonify({
             "status": "healthy",
             "database": os.path.exists(DATABASE_PATH),
-            "disclaimer": "DEMO DATA - NOT REAL"
+            "platform": "NCRB BOOZE COMPARE Production API"
         })
 
     # Auto-initialize and seed database if missing or empty

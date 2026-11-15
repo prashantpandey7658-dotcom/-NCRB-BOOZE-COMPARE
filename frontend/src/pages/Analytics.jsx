@@ -170,34 +170,34 @@ export default function Analytics() {
 
       {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-        <div className="p-5 rounded-2xl bg-lounge-800 border border-lounge-700">
+        <div className="p-5 rounded-2xl bg-lounge-850 border border-lounge-750">
           <span className="text-xs font-medium text-stone-400 uppercase tracking-wider block">
             Lowest Benchmark MRP
           </span>
           <span className="text-2xl font-black text-emerald-400 mt-1 block">
             ₹{overview.min_demo_value ? Number(overview.min_demo_value).toLocaleString('en-IN') : '0'}
           </span>
-          <span className="text-[11px] text-emerald-400/80">Kingfisher Premium (650ml)</span>
+          <span className="text-[11px] text-emerald-400/80">Entry-tier domestic beverage benchmark</span>
         </div>
 
-        <div className="p-5 rounded-2xl bg-lounge-800 border border-lounge-700">
+        <div className="p-5 rounded-2xl bg-lounge-850 border border-lounge-750">
           <span className="text-xs font-medium text-stone-400 uppercase tracking-wider block">
             Catalog Average MRP
           </span>
           <span className="text-2xl font-black text-amber-400 mt-1 block">
             ₹{overview.avg_demo_value ? Number(overview.avg_demo_value).toLocaleString('en-IN') : '0'}
           </span>
-          <span className="text-[11px] text-amber-300/80">Arithmetic catalog mean</span>
+          <span className="text-[11px] text-amber-300/80">Arithmetic catalog mean across {products.length} bottles</span>
         </div>
 
-        <div className="p-5 rounded-2xl bg-lounge-800 border border-lounge-700">
+        <div className="p-5 rounded-2xl bg-lounge-850 border border-lounge-750">
           <span className="text-xs font-medium text-stone-400 uppercase tracking-wider block">
             Highest Benchmark MRP
           </span>
           <span className="text-2xl font-black text-amber-300 mt-1 block">
             ₹{overview.max_demo_value ? Number(overview.max_demo_value).toLocaleString('en-IN') : '0'}
           </span>
-          <span className="text-[11px] text-amber-300/80">Glenfiddich 12YO Single Malt</span>
+          <span className="text-[11px] text-amber-300/80">Ultra-premium aged single malt tier</span>
         </div>
       </div>
 

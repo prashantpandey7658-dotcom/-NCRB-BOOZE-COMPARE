@@ -9,7 +9,8 @@ import {
   ShieldCheck,
   Cpu,
   Layers,
-  MapPin
+  MapPin,
+  Sparkles
 } from 'lucide-react';
 
 export default function About() {
@@ -22,15 +23,15 @@ export default function About() {
     },
     {
       q: 'How does the comparison algorithm calculate price spread and variance?',
-      a: 'The backend queries products and regional_demo_data across selected product IDs. It determines arithmetic min, max, and delta differences, while computing percentage divergence from Delhi baseline MRPs for Gurugram (-10%), Noida (+8%), and Faridabad (-8%).',
+      a: 'The backend queries genuine product specifications across selected product IDs. It calculates arithmetic minimum, maximum, and delta price spreads, alongside computing percentage divergence from Delhi baseline MRPs for Gurugram (-10%), Noida (+8%), and Faridabad (-8%).',
     },
     {
       q: 'What is the technical architecture of NCRB BOOZE COMPARE?',
-      a: 'The application is built on a decoupled full-stack architecture: React 18 Single Page Application (Vite) styled with Tailwind CSS, Chart.js visualizations, and a Python 3.14 Flask RESTful API communicating with a normalized SQLite3 database using parameterized queries and foreign-key integrity.',
+      a: 'The application is built on a decoupled full-stack architecture: React 18 Single Page Application (Vite) styled with Tailwind CSS, Chart.js visualizations, and a Python 3.14 Flask RESTful API communicating with a normalized SQLite3 relational database using parameterized queries and foreign-key integrity.',
     },
     {
       q: 'How does the NCRB AI Assistant assist users while complying with legal regulations?',
-      a: 'The assistant features a dual-engine architecture: it can use the live OpenAI or Gemini API or fall back to an internal knowledge engine. It includes an automated compliance filter that intercepts queries asking for liquor retail stores, purchasing links, or home deliveries, politely explaining that the platform is an informational price-index and comparison tool.',
+      a: 'The assistant features an intelligent multi-provider architecture supporting Google Gemini API (gemini-1.5-flash) and an expert local sommelier engine. It includes an automated compliance filter that intercepts queries asking for unlawful alcohol deliveries or direct purchasing, explaining that retail inventory is exclusively available through licensed state excise vends.',
     },
     {
       q: 'What are the legal drinking ages across the NCR?',
@@ -40,8 +41,8 @@ export default function About() {
 
   return (
     <div className="space-y-12 max-w-5xl mx-auto">
-      {/* Student Profile Card */}
-      <div className="p-8 rounded-3xl bg-gradient-to-br from-lounge-800 via-lounge-850 to-amber-950/20 border border-amber-500/30 shadow-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      {/* Platform Overview Card */}
+      <div className="p-8 rounded-3xl bg-gradient-to-br from-lounge-850 via-lounge-900 to-amber-950/30 border border-amber-500/30 shadow-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div className="flex items-center gap-5">
           <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-amber-600 to-amber-400 flex items-center justify-center text-lounge-950 font-black shadow-lg shadow-amber-500/25">
             <Wine className="w-8 h-8" />
@@ -58,7 +59,7 @@ export default function About() {
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto">
           <div className="px-4 py-2.5 rounded-xl bg-lounge-800 border border-lounge-700 text-center">
             <span className="text-[10px] uppercase font-semibold text-stone-400 block">Coverage</span>
-            <span className="text-xs font-bold text-amber-300">Delhi • Gurgaon • Noida</span>
+            <span className="text-xs font-bold text-amber-300">Delhi • Gurgaon • Noida • Faridabad</span>
           </div>
           <div className="px-4 py-2.5 rounded-xl bg-lounge-800 border border-lounge-700 text-center">
             <span className="text-[10px] uppercase font-semibold text-stone-400 block">Data Sources</span>
@@ -75,17 +76,17 @@ export default function About() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          <div className="p-5 rounded-2xl bg-lounge-800 border border-lounge-700">
+          <div className="p-5 rounded-2xl bg-lounge-850 border border-lounge-750">
             <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center mb-3">
               <Code2 className="w-5 h-5" />
             </div>
             <h3 className="font-bold text-white text-sm">Frontend Layer</h3>
             <p className="text-xs text-stone-400 mt-1">
-              React.js 18 with Vite, Tailwind CSS with bar-lounge dark amber styling, and Lucide React icons.
+              React 18 SPA with Vite, Tailwind CSS with bar-lounge dark amber styling, and Lucide React icons.
             </p>
           </div>
 
-          <div className="p-5 rounded-2xl bg-lounge-800 border border-lounge-700">
+          <div className="p-5 rounded-2xl bg-lounge-850 border border-lounge-750">
             <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center mb-3">
               <Layers className="w-5 h-5" />
             </div>
@@ -95,23 +96,23 @@ export default function About() {
             </p>
           </div>
 
-          <div className="p-5 rounded-2xl bg-lounge-800 border border-lounge-700">
+          <div className="p-5 rounded-2xl bg-lounge-850 border border-lounge-750">
             <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center mb-3">
               <Database className="w-5 h-5" />
             </div>
             <h3 className="font-bold text-white text-sm">Database Layer</h3>
             <p className="text-xs text-stone-400 mt-1">
-              SQLite3 relational database (<code className="text-amber-300">ncrb_demo.db</code>) with parameterized SQL and foreign keys.
+              SQLite3 relational database (<code className="text-amber-300">ncrb.db</code>) with parameterized SQL and foreign keys.
             </p>
           </div>
 
-          <div className="p-5 rounded-2xl bg-lounge-800 border border-lounge-700">
+          <div className="p-5 rounded-2xl bg-lounge-850 border border-lounge-750">
             <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center mb-3">
               <ShieldCheck className="w-5 h-5" />
             </div>
-            <h3 className="font-bold text-white text-sm">Digital Assistant</h3>
+            <h3 className="font-bold text-white text-sm">Gemini AI Assistant</h3>
             <p className="text-xs text-stone-400 mt-1">
-              NCRB Assistant with OpenAI / Gemini API integration and local knowledge engine with compliance filters.
+              Google Gemini API (gemini-1.5-flash) and intelligent local sommelier engine with compliance filtering.
             </p>
           </div>
         </div>
@@ -133,11 +134,11 @@ export default function About() {
             return (
               <div
                 key={idx}
-                className="rounded-2xl bg-lounge-800 border border-lounge-700 overflow-hidden transition"
+                className="rounded-2xl bg-lounge-850 border border-lounge-750 overflow-hidden transition"
               >
                 <button
                   onClick={() => setOpenFaq(isOpen ? -1 : idx)}
-                  className="w-full p-4 sm:p-5 text-left flex items-center justify-between gap-4 text-sm font-bold text-white hover:bg-lounge-750 transition"
+                  className="w-full p-4 sm:p-5 text-left flex items-center justify-between gap-4 text-sm font-bold text-white hover:bg-lounge-800 transition"
                 >
                   <span className="flex items-center gap-3">
                     <span className="w-6 h-6 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center text-xs font-bold">

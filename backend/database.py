@@ -20,7 +20,7 @@ def get_db_connection():
     return conn
 
 def init_db():
-    """Initialize database tables according to academic project specifications."""
+    """Initialize database tables according to NCR beverage portal specifications."""
     conn = get_db_connection()
     cursor = conn.cursor()
 
@@ -31,6 +31,7 @@ def init_db():
         name TEXT NOT NULL,
         category TEXT NOT NULL,
         package_size TEXT NOT NULL,
+        abv TEXT,
         description TEXT,
         demo_value REAL NOT NULL,
         brand_url TEXT,
@@ -41,7 +42,7 @@ def init_db():
     """)
 
     # Ensure optional columns exist if table was created earlier
-    for col in [("brand_url", "TEXT"), ("image_url", "TEXT"), ("availability", "TEXT")]:
+    for col in [("brand_url", "TEXT"), ("image_url", "TEXT"), ("availability", "TEXT"), ("abv", "TEXT")]:
         try:
             cursor.execute(f"ALTER TABLE products ADD COLUMN {col[0]} {col[1]};")
         except sqlite3.OperationalError:

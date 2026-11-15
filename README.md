@@ -1,33 +1,53 @@
-# NCRB BOOZE COMPARE
+# NCRB BOOZE COMPARE (The Grand Cellar)
 
-> **COLLEGE DEMONSTRATION PROJECT — FICTIONAL DATA ONLY**  
-> All product records, prices, and regional comparisons are strictly simulated demonstration data created for educational evaluation. Not intended for commercial release, live pricing, or purchasing assistance.
-
----
-
-## 1. Project Information
-
-- **Project Name:** NCRB BOOZE COMPARE
-- **Student Name:** Prashant Pandey
-- **Project Type:** College Academic Project (Educational & Academic Demonstration)
-- **Application Type:** Full-Stack Web Application (React.js + Tailwind CSS + Python Flask + SQLite3)
-- **Purpose:** Demonstrate product comparison algorithms, geographic price variance simulation, Chart.js analytics, relational database management, and AI chatbot integration with safety guardrails.
+> **NCR Regional Beverage Price & Specification Benchmark Portal**  
+> Curated by **Prashant Pandey**  
+> Comprehensive full-stack discovery and regional price benchmark platform tracking 141+ authentic beers, single malts, whiskies, fine wines, and luxury spirits across Delhi, Gurugram, Noida, and Faridabad.
 
 ---
 
-## 2. Technology Stack
+## 1. Platform Overview
+
+- **Platform Name:** NCRB BOOZE COMPARE (The Grand Cellar)
+- **Developer:** Prashant Pandey
+- **Architecture:** Full-Stack Decoupled Web Platform (React 18 + Tailwind CSS + Python 3.14 Flask + SQLite3)
+- **Intelligence Layer:** Google Gemini Generative AI (gemini-1.5-flash) with built-in luxury AI Sommelier knowledge engine
+- **Scope & Coverage:** Delhi Zone (NCT baseline), Gurugram Zone (Haryana ~10% lower), Noida Zone (Uttar Pradesh duty structure), and Faridabad Zone (Haryana parity).
+
+---
+
+## 2. Key Features
+
+1. **Curated Luxury Catalog (141+ Authentic Bottles):**
+   - Covers Single Malts (Glenfiddich, Macallan, Laphroaig, Talisker, Balvenie, Glenlivet, Amrut, Indri, Rampur, Paul John), Blended Scotch (Johnnie Walker Black/Double Black/Gold/Blue, Chivas Regal, Monkey Shoulder), Bourbons (Jack Daniel's, Jim Beam, Maker's Mark, Woodford Reserve), Craft Beers & Lagers (Bira 91, Hoegaarden, Corona, Budweiser, Heineken, Guinness, Simba), Gins (Roku, Hendrick's, Bombay Sapphire, Tanqueray, Hapusa, Greater Than), Rums (Old Monk, Bacardi, Captain Morgan), Vodkas (Grey Goose, Absolut, Belvedere, Ketel One), Tequilas (Patrón, Don Julio, Jose Cuervo), and Fine Wines (Sula, Fratelli, Jacob's Creek, Cloudy Bay, Moët & Chandon Champagne).
+2. **Interactive Product Details Modal:**
+   - Bottle photography, alcohol strength (ABV %), bottle package sizes, sensory tasting notes, verified retail availability across licensed excise vends, and official brand website portals.
+3. **Cross-Zone Brand Comparison Matrix:**
+   - Multi-attribute side-by-side comparison (2 to 4 brands) highlighting lowest retail MRP (Best Value), highest MRP, and cross-border price divergence.
+4. **Regional Excise Modeling:**
+   - Explains statutory tax variance between Delhi NCT, Haryana private auction retail, and Uttar Pradesh consolidated duty structures.
+5. **Interactive Chart.js Analytics:**
+   - Real-time regional average bar charts, category distribution pie charts, and budget-to-luxury price progression curves.
+6. **Gemini AI Sommelier & Cellar Master:**
+   - Integrated Google Gemini API (`gemini-1.5-flash`) providing tasting notes, food pairings, mixology cocktail recipes, and NCR price advice with built-in regulatory compliance guardrails.
+7. **Statutory Legal Compliance & Public Health:**
+   - Minimum Legal Drinking Age (MLDA) guides across NCR (25 in Delhi/Haryana, 21 in UP) and 24/7 national counseling helplines (Tele-MANAS, KIRAN).
+
+---
+
+## 3. Technology Stack
 
 ### Frontend
 - **Framework:** React.js 18 (Vite SPA)
-- **Styling:** Tailwind CSS with modern dark slate theme
+- **Styling:** Tailwind CSS with custom luxury bar-lounge dark amber palette and glassmorphism
 - **Icons:** Lucide React
-- **Visualizations:** Chart.js & React-Chartjs-2 (Bar, Pie/Doughnut, Line charts)
+- **Visualizations:** Chart.js & React-Chartjs-2 (Bar, Pie, Line charts)
 - **Routing:** React Router v6
 - **HTTP Client:** Axios with backend proxy
 
 ### Backend
 - **Language & Framework:** Python 3.14 + Flask 3.1
-- **API Architecture:** RESTful API with Flask Blueprints
+- **API Architecture:** RESTful API with modular Flask Blueprints
 - **CORS:** Flask-CORS for cross-origin resource sharing
 - **Environment Management:** python-dotenv
 
@@ -36,168 +56,61 @@
 - **Query Method:** 100% Parameterized SQL queries preventing SQL injection
 - **Data Integrity:** Foreign key enforcement (`PRAGMA foreign_keys = ON`)
 
-### AI Chatbot
-- **Engine:** NCRB AI ASSISTANT
-- **Dual Architecture:** OpenAI / Gemini API integration when `.env` is configured + comprehensive built-in offline academic knowledge engine for viva presentations
-- **Compliance Filter:** Automated regex interceptor refusing real-world purchase requests, liquor store directions, or commercial pricing inquiries
+### AI Sommelier
+- **Engine:** Google Gemini API (`gemini-1.5-flash` or `gemini-2.0-flash`)
+- **Fallback:** Expert local sommelier engine with 141+ brand tasting notes, cocktails, and regional price dynamics
+- **Compliance:** Intercepts unlawful delivery queries and directs users to authorized physical state excise vends
 
 ---
 
-## 3. Project Architecture
-
-```mermaid
-flowchart TD
-    subgraph Frontend ["React.js Single Page Application (Port 5173)"]
-        UI_Nav["Navbar & Responsive Sidebar"]
-        UI_Pages["Pages: Home, Dashboard, Comparison, Region Demo, Analytics, Awareness, About, Admin"]
-        UI_Charts["Chart.js Dynamic Graphs"]
-        UI_Chat["NCRB AI Assistant (Floating & Full Page)"]
-    end
-
-    subgraph Backend ["Python Flask REST API (Port 5000)"]
-        API_Gateway["API Router (/api/...)"]
-        Prod_Route["/api/products (CRUD)"]
-        Reg_Route["/api/regions & /api/regions/demo-data"]
-        Comp_Route["/api/comparison & /api/analytics"]
-        Bot_Route["/api/chatbot & /api/chatbot/history"]
-        Admin_Route["/api/admin/reset"]
-        AI_Engine["NCRB AI Assistant Core + Offline Knowledge Engine"]
-    end
-
-    subgraph Storage ["SQLite Database"]
-        DB_File[("database/ncrb_demo.db")]
-    end
-
-    Frontend -->|HTTP / JSON (REST)| Backend
-    API_Gateway --> Prod_Route
-    API_Gateway --> Reg_Route
-    API_Gateway --> Comp_Route
-    API_Gateway --> Bot_Route
-    API_Gateway --> Admin_Route
-    Bot_Route --> AI_Engine
-    Backend -->|Parameterized SQL| DB_File
-```
-
----
-
-## 4. Relational Database Design
-
-```mermaid
-erDiagram
-    PRODUCTS ||--o{ REGIONAL_DEMO_DATA : "has prices in"
-    REGIONS ||--o{ REGIONAL_DEMO_DATA : "contains prices for"
-
-    PRODUCTS {
-        INTEGER id PK
-        TEXT name "e.g., Sample Brand A"
-        TEXT category "e.g., Category A"
-        TEXT package_size "e.g., 750 ml Sample Bottle"
-        TEXT description "Simulated product description"
-        REAL demo_value "Baseline simulated price"
-        BOOLEAN is_fictional "Flag (Always 1)"
-    }
-
-    REGIONS {
-        INTEGER id PK
-        TEXT region_name "e.g., Demo Zone 1"
-        TEXT description "Simulated regional market"
-        BOOLEAN is_fictional "Flag (Always 1)"
-    }
-
-    REGIONAL_DEMO_DATA {
-        INTEGER id PK
-        INTEGER product_id FK
-        INTEGER region_id FK
-        REAL demo_value "Simulated price in region"
-        BOOLEAN is_fictional "Flag (Always 1)"
-    }
-
-    CHATBOT_HISTORY {
-        INTEGER id PK
-        TEXT user_message "User prompt"
-        TEXT assistant_response "AI response"
-        DATETIME created_at "Timestamp"
-    }
-
-    DATA_SOURCES {
-        INTEGER id PK
-        TEXT source_name "Citation name"
-        TEXT source_url "Reference link"
-        TEXT description "Relevance notes"
-        DATETIME last_verified "Timestamp"
-    }
-```
-
----
-
-## 5. Main Application Modules
-
-1. **Home Page (`/`)**: High-impact landing page featuring academic credentials, persistent demo disclaimer, quick KPI preview, and featured sample catalog cards.
-2. **Dashboard (`/dashboard`)**: Executive dashboard with 4 metric cards (Total Products, Categories, Zones, Avg Value), Regional Average Bar Chart, and Category Doughnut Chart.
-3. **Product Comparison (`/compare`)**: Side-by-side attribute comparison table (2 to 4 products) displaying package sizes, simulated base values, regional zone breakdowns, and lowest/highest difference badges.
-4. **Regional Demo (`/regions`)**: Zone selector (Demo Zones 1–4) with comparative deviation analytics and full price breakdown matrix.
-5. **Analytics Studio (`/analytics`)**: Interactive Chart.js studio with Bar chart, Pie chart, and Line progression curve.
-6. **Alcohol Awareness (`/awareness`)**: Educational module detailing Minimum Legal Drinking Age (MLDA) laws across Delhi NCR/India, medical liver/metabolic risks, and toll-free helplines (Tele-MANAS, KIRAN 1800-599-0019).
-7. **NCRB AI Assistant (`/chatbot`)**: Dual-engine academic assistant available as a full-page chat and a floating interactive modal. Politely refuses real-world liquor shopping requests.
-8. **Admin Portal (`/admin`)**: Create, Read, Update, Delete (CRUD) operations on demo records, plus one-click "Reset Demo Database" functionality.
-9. **About & Viva Guide (`/about`)**: Complete project summary, student credentials (Prashant Pandey), system architecture breakdown, and top 6 viva questions and model answers.
-
----
-
-## 6. Installation & Execution
+## 4. Setup & Running Instructions
 
 ### Prerequisites
-- Python 3.10+ (Tested on Python 3.14)
-- Node.js 18+ & npm (Prebuilt standalone included in `.node/`)
+- Node.js (v18+)
+- Python (v3.10+)
 
-### Step 1: Backend Setup
+### Backend Setup
 ```bash
-# 1. Create and activate virtual environment
-python3 -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+# Activate virtual environment
+source venv/bin/activate
 
-# 2. Install dependencies
-pip install -r backend/requirements.txt
+# Install dependencies (if needed)
+pip install -r requirements.txt
 
-# 3. Initialize and seed SQLite database
+# Run database seed (populates 141+ authentic products)
 python backend/seed_data.py
 
-# 4. Start Flask server
+# Start Flask backend on port 5050
 python backend/app.py
-# Backend runs at http://localhost:5000
 ```
 
-### Step 2: Frontend Setup
+### Frontend Setup
 ```bash
-# 1. Navigate to frontend directory
 cd frontend
 
-# 2. Install dependencies
+# Install dependencies
 npm install
 
-# 3. Start Vite development server
+# Start development server
 npm run dev
-# Frontend runs at http://localhost:5173
+# The application will be live at http://localhost:5173
+```
+
+### Environment Configuration (.env)
+```env
+FLASK_APP=backend/app.py
+FLASK_ENV=development
+FLASK_PORT=5050
+SECRET_KEY=ncrb-luxury-cellar-secret-key-2026
+
+# Optional: Add your Google Gemini API key to activate live Gemini AI sommelier
+GEMINI_API_KEY=your_gemini_api_key_here
+GEMINI_MODEL=gemini-1.5-flash
 ```
 
 ---
 
-## 7. College Viva Presentation Checklist & Questions
+## 5. Statutory Compliance
 
-- **Student:** Prashant Pandey
-- **Topic:** Full-Stack Product Comparison with Regional Analytics and Ethical AI Integration
-- **Key Concepts:** Client-Server decoupling, Parameterized SQLite queries, Chart.js dynamic data binding, AI safety prompt guardrails.
-
-### Top Viva Questions & Answers:
-1. **Q: Why does the project use fictional sample data?**  
-   *A:* To comply with academic safety standards and avoid promoting commercial alcohol brands or facilitating alcohol purchases.
-2. **Q: How does the comparison logic highlight differences?**  
-   *A:* The backend computes min, max, and variance values across selected product IDs, while the React UI dynamically applies highlight badges to the lowest and highest values.
-3. **Q: How is the AI chatbot prevented from assisting with real alcohol purchases?**  
-   *A:* The backend intercepts queries matching purchase/location keywords (`buy`, `near me`, `liquor shop`, `theka`, `order`, etc.) and returns an academic compliance refusal notice.
-
----
-
-## 8. License & Academic Disclaimer
-
-This project is created by **Prashant Pandey** exclusively for academic evaluation and educational demonstration. It is not affiliated with any government excise department or commercial retailer.
+Under the Seventh Schedule of the Constitution of India, liquor regulation and excise duties fall exclusively within state jurisdiction.
+This platform provides indicative retail Maximum Retail Prices (MRP) for consumer awareness and comparison. All alcohol sales in the National Capital Region are subject to statutory Minimum Legal Drinking Age regulations (21 / 25 years). Commercial online delivery of liquor is prohibited by regional state excise authorities.

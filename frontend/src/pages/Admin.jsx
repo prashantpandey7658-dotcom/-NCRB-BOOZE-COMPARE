@@ -10,13 +10,15 @@ import {
   X,
   ExternalLink,
   MapPin,
-  Image as ImageIcon
+  Image as ImageIcon,
+  Search
 } from 'lucide-react';
 import api from '../services/api';
 
 export default function Admin() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
@@ -27,6 +29,7 @@ export default function Admin() {
     name: '',
     category: 'Beer',
     package_size: '650 ml Bottle',
+    abv: '40%',
     description: '',
     demo_value: '',
     brand_url: '',
@@ -59,7 +62,8 @@ export default function Admin() {
     setFormData({
       name: '',
       category: categories[0] || 'Beer',
-      package_size: '650 ml Bottle',
+      package_size: '750 ml Bottle',
+      abv: '40%',
       description: '',
       demo_value: '',
       brand_url: '',
@@ -75,6 +79,7 @@ export default function Admin() {
       name: p.name,
       category: p.category,
       package_size: p.package_size,
+      abv: p.abv || '40%',
       description: p.description || '',
       demo_value: p.demo_value,
       brand_url: p.brand_url || '',
@@ -118,24 +123,34 @@ export default function Admin() {
   };
 
   const handleResetDatabase = async () => {
-    if (!window.confirm('Reset database to default genuine brands dataset (Kingfisher, Old Monk, Glenfiddich, etc.)?')) return;
+    if (!window.confirm('Reset database to authentic default catalog with 141+ genuine brands across NCR?')) return;
     try {
       await api.resetDatabase();
-      showNotification('Database re-seeded successfully with genuine brand baseline data.');
+      showNotification('Database re-seeded successfully with authentic brand catalog.');
       loadData();
     } catch (err) {
       showNotification('Failed to reset database: ' + err.message, 'error');
     }
   };
 
+  const displayedProducts = products.filter((p) => {
+    if (!searchTerm) return true;
+    const term = searchTerm.toLowerCase();
+    return (
+      p.name.toLowerCase().includes(term) ||
+      p.category.toLowerCase().includes(term) ||
+      (p.availability && p.availability.toLowerCase().includes(term))
+    );
+  });
+
   return (
     <div className="space-y-8">
       {/* Title */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight flex items-center gap-2.5">
+          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight flex items-center gap-2.5">
             <SlidersHorizontal className="w-7 h-7 text-amber-400" />
-            Catalog & Price Management
+            <span>Catalog & Price Management</span>
           </h1>
           <p className="text-xs text-stone-400 mt-1">
             Manage genuine brands, bottle photography URLs, indicative MRPs, and retail availability across NCR zones.
@@ -149,7 +164,7 @@ export default function Admin() {
             title="Reset Database to Default Baseline"
           >
             <RefreshCw className="w-3.5 h-3.5" />
-            <span>Reset Default Catalog</span>
+            <span>Reset Catalog</span>
           </button>
 
           <button
@@ -175,19 +190,35 @@ export default function Admin() {
       )}
 
       {/* Products Management Table */}
-      <div className="p-6 rounded-2xl bg-lounge-800 border border-lounge-700 space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="font-bold text-white text-base">Tracked Brands ({products.length})</h2>
-          <span className="text-xs text-amber-400 font-medium">State Excise Retail Benchmarks</span>
+      <div className="p-6 rounded-2xl bg-lounge-850 border border-lounge-750 space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h2 className="font-bold text-white text-base">Tracked Brands ({products.length})</h2>
+            <span className="text-xs text-amber-400 font-medium">
+              Showing {displayedProducts.length} of {products.length} bottles
+            </span>
+          </div>
+
+          <div className="relative w-full sm:w-72">
+            <Search className="w-3.5 h-3.5 absolute left-3 top-3 text-stone-400" />
+            <input
+              type="text"
+              placeholder="Search catalog to edit..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full bg-lounge-900 border border-lounge-700 focus:border-amber-400 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-stone-500 focus:outline-none"
+            />
+          </div>
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
-              <tr className="border-b border-lounge-700 text-stone-400 uppercase tracking-wider font-semibold">
+              <tr className="border-b border-lounge-750 text-stone-400 uppercase tracking-wider font-semibold">
                 <th className="py-3 px-4">Brand</th>
                 <th className="py-3 px-4">Category</th>
                 <th className="py-3 px-4">Package</th>
+                <th className="py-3 px-4">ABV</th>
                 <th className="py-3 px-4">Base MRP</th>
                 <th className="py-3 px-4">Availability</th>
                 <th className="py-3 px-4">Official Site</th>
@@ -195,15 +226,19 @@ export default function Admin() {
               </tr>
             </thead>
             <tbody className="divide-y divide-lounge-750 text-stone-300">
-              {products.map((p) => (
-                <tr key={p.id} className="hover:bg-lounge-750/50">
+              {displayedProducts.map((p) => (
+                <tr key={p.id} className="hover:bg-lounge-800/60">
                   <td className="py-3 px-4 font-bold text-white flex items-center gap-2.5">
-                    {p.image_url && (
+                    {p.image_url ? (
                       <img
                         src={p.image_url}
                         alt={p.name}
                         className="w-8 h-8 rounded-lg object-cover border border-amber-500/20"
                       />
+                    ) : (
+                      <div className="w-8 h-8 rounded-lg bg-lounge-800 border border-amber-500/20 flex items-center justify-center text-amber-400">
+                        <ImageIcon className="w-4 h-4" />
+                      </div>
                     )}
                     <span>{p.name}</span>
                   </td>
@@ -213,10 +248,11 @@ export default function Admin() {
                     </span>
                   </td>
                   <td className="py-3 px-4 text-stone-400">{p.package_size}</td>
+                  <td className="py-3 px-4 text-stone-300 font-semibold">{p.abv || '40%'}</td>
                   <td className="py-3 px-4 font-black text-amber-400">
                     ₹{Number(p.demo_value).toLocaleString('en-IN')}
                   </td>
-                  <td className="py-3 px-4 text-stone-300 max-w-[200px] truncate" title={p.availability}>
+                  <td className="py-3 px-4 text-stone-300 text-[11px] max-w-[200px] truncate" title={p.availability}>
                     {p.availability || 'Authorized NCR retail outlets'}
                   </td>
                   <td className="py-3 px-4">
@@ -225,28 +261,28 @@ export default function Admin() {
                         href={p.brand_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-amber-400 hover:underline"
+                        className="inline-flex items-center gap-1 text-amber-400 hover:text-white transition"
                       >
-                        <span>Website</span>
+                        <span>Link</span>
                         <ExternalLink className="w-3 h-3" />
                       </a>
                     ) : (
-                      <span className="text-stone-500">None</span>
+                      <span className="text-stone-500">N/A</span>
                     )}
                   </td>
                   <td className="py-3 px-4 text-right">
                     <div className="flex items-center justify-end gap-2">
                       <button
                         onClick={() => handleOpenEdit(p)}
-                        className="p-1.5 rounded-lg text-stone-300 hover:text-white hover:bg-lounge-700 transition"
-                        title="Edit Brand"
+                        className="p-1.5 rounded-lg bg-lounge-750 text-amber-300 hover:bg-lounge-700 transition"
+                        title="Edit brand specifications"
                       >
                         <Pencil className="w-3.5 h-3.5" />
                       </button>
                       <button
                         onClick={() => handleDelete(p.id)}
-                        className="p-1.5 rounded-lg text-rose-400 hover:text-rose-200 hover:bg-rose-500/20 transition"
-                        title="Delete Brand"
+                        className="p-1.5 rounded-lg bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 transition"
+                        title="Delete brand"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
                       </button>
@@ -259,19 +295,19 @@ export default function Admin() {
         </div>
       </div>
 
-      {/* Modal: Create or Edit Brand */}
+      {/* Add / Edit Modal */}
       {modalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-lounge-900 border border-amber-500/30 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-5 max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between border-b border-lounge-700 pb-3">
-              <h3 className="text-base font-bold text-white">
-                {editingProduct ? 'Edit Brand Record' : 'Add Brand Record'}
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
+          <div className="bg-lounge-900 border border-amber-500/30 rounded-2xl w-full max-w-lg p-6 space-y-4 my-8">
+            <div className="flex items-center justify-between pb-3 border-b border-lounge-750">
+              <h3 className="font-bold text-white text-base">
+                {editingProduct ? 'Edit Brand Record' : 'Add New Brand Record'}
               </h3>
               <button
                 onClick={() => setModalOpen(false)}
-                className="p-1 text-stone-400 hover:text-white"
+                className="p-1 rounded-lg text-stone-400 hover:text-white hover:bg-lounge-800 transition"
               >
-                <X className="w-4 h-4" />
+                <X className="w-5 h-5" />
               </button>
             </div>
 
@@ -317,16 +353,29 @@ export default function Admin() {
                 </div>
               </div>
 
-              <div>
-                <label className="block text-stone-300 font-semibold mb-1">Package Size *</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g., 650 ml Bottle / 500 ml Can"
-                  value={formData.package_size}
-                  onChange={(e) => setFormData({ ...formData, package_size: e.target.value })}
-                  className="w-full bg-lounge-800 border border-lounge-700 rounded-xl px-3 py-2 text-white placeholder-stone-500 focus:outline-none focus:border-amber-400"
-                />
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-stone-300 font-semibold mb-1">Package Size *</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g., 750 ml Bottle / 500 ml Can"
+                    value={formData.package_size}
+                    onChange={(e) => setFormData({ ...formData, package_size: e.target.value })}
+                    className="w-full bg-lounge-800 border border-lounge-700 rounded-xl px-3 py-2 text-white placeholder-stone-500 focus:outline-none focus:border-amber-400"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-stone-300 font-semibold mb-1">ABV Strength</label>
+                  <input
+                    type="text"
+                    placeholder="e.g., 40% or 5%"
+                    value={formData.abv}
+                    onChange={(e) => setFormData({ ...formData, abv: e.target.value })}
+                    className="w-full bg-lounge-800 border border-lounge-700 rounded-xl px-3 py-2 text-white placeholder-stone-500 focus:outline-none focus:border-amber-400"
+                  />
+                </div>
               </div>
 
               <div>
@@ -352,10 +401,10 @@ export default function Admin() {
               </div>
 
               <div>
-                <label className="block text-stone-300 font-semibold mb-1">Official Brand Link (URL)</label>
+                <label className="block text-stone-300 font-semibold mb-1">Official Brand Website URL</label>
                 <input
                   type="url"
-                  placeholder="https://www.example.com"
+                  placeholder="https://brand-website.com"
                   value={formData.brand_url}
                   onChange={(e) => setFormData({ ...formData, brand_url: e.target.value })}
                   className="w-full bg-lounge-800 border border-lounge-700 rounded-xl px-3 py-2 text-white placeholder-stone-500 focus:outline-none focus:border-amber-400"
@@ -363,29 +412,29 @@ export default function Admin() {
               </div>
 
               <div>
-                <label className="block text-stone-300 font-semibold mb-1">Brand Description & Tasting Notes</label>
+                <label className="block text-stone-300 font-semibold mb-1">Tasting Notes & Description</label>
                 <textarea
-                  rows={3}
-                  placeholder="Tasting notes and specification summary..."
+                  rows="2"
+                  placeholder="Sensory tasting profile, oak aging notes, botanicals..."
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  className="w-full bg-lounge-800 border border-lounge-700 rounded-xl px-3 py-2 text-white placeholder-stone-500 focus:outline-none focus:border-amber-400 resize-none"
+                  className="w-full bg-lounge-800 border border-lounge-700 rounded-xl px-3 py-2 text-white placeholder-stone-500 focus:outline-none focus:border-amber-400"
                 />
               </div>
 
-              <div className="pt-3 border-t border-lounge-700 flex items-center justify-end gap-2">
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-lounge-750">
                 <button
                   type="button"
                   onClick={() => setModalOpen(false)}
-                  className="px-4 py-2 rounded-xl text-stone-300 hover:text-white bg-lounge-800 hover:bg-lounge-750 transition"
+                  className="px-4 py-2 rounded-xl bg-lounge-800 hover:bg-lounge-750 text-stone-300 transition"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 rounded-xl text-lounge-950 bg-amber-500 hover:bg-amber-400 font-bold shadow-md transition"
+                  className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-lounge-950 font-bold shadow-md shadow-amber-500/20 transition"
                 >
-                  {editingProduct ? 'Save Changes' : 'Create Record'}
+                  {editingProduct ? 'Save Specifications' : 'Create Brand'}
                 </button>
               </div>
             </form>

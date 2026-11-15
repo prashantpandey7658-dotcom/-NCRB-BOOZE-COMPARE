@@ -34,15 +34,15 @@ class ProductModel:
         return dict(row) if row else None
 
     @staticmethod
-    def create(name, category, package_size, description, demo_value, brand_url="", image_url="", availability="Available across authorized NCR excise vends"):
+    def create(name, category, package_size, description, demo_value, brand_url="", image_url="", availability="Available across authorized NCR excise vends", abv="40%"):
         conn = get_db_connection()
         cursor = conn.cursor()
         cursor.execute(
             """
-            INSERT INTO products (name, category, package_size, description, demo_value, brand_url, image_url, availability, is_fictional)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0)
+            INSERT INTO products (name, category, package_size, abv, description, demo_value, brand_url, image_url, availability, is_fictional)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0)
             """,
-            (name, category, package_size, description, float(demo_value), brand_url, image_url, availability)
+            (name, category, package_size, abv, description, float(demo_value), brand_url, image_url, availability)
         )
         new_id = cursor.lastrowid
 
@@ -66,16 +66,16 @@ class ProductModel:
         return new_id
 
     @staticmethod
-    def update(product_id, name, category, package_size, description, demo_value, brand_url="", image_url="", availability=""):
+    def update(product_id, name, category, package_size, description, demo_value, brand_url="", image_url="", availability="", abv="40%"):
         conn = get_db_connection()
         cursor = conn.cursor()
         cursor.execute(
             """
             UPDATE products
-            SET name = ?, category = ?, package_size = ?, description = ?, demo_value = ?, brand_url = ?, image_url = ?, availability = ?
+            SET name = ?, category = ?, package_size = ?, abv = ?, description = ?, demo_value = ?, brand_url = ?, image_url = ?, availability = ?
             WHERE id = ?
             """,
-            (name, category, package_size, description, float(demo_value), brand_url, image_url, availability, product_id)
+            (name, category, package_size, abv, description, float(demo_value), brand_url, image_url, availability, product_id)
         )
         # Update baseline regional values too
         cursor.execute("SELECT id FROM regions")
@@ -128,6 +128,7 @@ class RegionModel:
                 p.name as product_name,
                 p.category as product_category,
                 p.package_size,
+                p.abv,
                 p.brand_url,
                 p.image_url,
                 p.availability,

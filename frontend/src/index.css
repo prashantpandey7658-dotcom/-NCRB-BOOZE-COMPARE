@@ -4,14 +4,46 @@
 
 @layer base {
   body {
-    @apply bg-[#080503] text-stone-200 font-sans;
+    @apply bg-[#080503] text-stone-200 font-sans antialiased;
     background-image: 
-      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(217, 119, 6, 0.18), transparent 70%),
-      radial-gradient(circle at 100% 40%, rgba(180, 83, 9, 0.08), transparent 50%),
-      linear-gradient(180deg, #0f0a06 0%, #080503 100%);
+      radial-gradient(ellipse 90% 60% at 50% -10%, rgba(217, 119, 6, 0.22), transparent 75%),
+      radial-gradient(ellipse 60% 40% at 85% 30%, rgba(180, 83, 9, 0.12), transparent 60%),
+      radial-gradient(ellipse 50% 50% at 15% 70%, rgba(245, 158, 11, 0.08), transparent 65%),
+      linear-gradient(180deg, #100b07 0%, #0a0604 50%, #060402 100%);
     background-attachment: fixed;
     min-height: 100vh;
   }
+}
+
+/* Luxury Bar Aesthetics & Glassmorphism Utilities */
+.glass-panel {
+  background: rgba(22, 15, 10, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(245, 158, 11, 0.18);
+}
+
+.glass-panel-hover {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.glass-panel-hover:hover {
+  background: rgba(28, 19, 13, 0.88);
+  border-color: rgba(245, 158, 11, 0.45);
+  box-shadow: 0 12px 30px -10px rgba(245, 158, 11, 0.2);
+}
+
+.amber-glow {
+  box-shadow: 0 0 25px -5px rgba(245, 158, 11, 0.25);
+}
+
+.amber-glow-strong {
+  box-shadow: 0 0 35px -5px rgba(245, 158, 11, 0.45);
+}
+
+.text-gold-gradient {
+  background: linear-gradient(135deg, #fef08a 0%, #f59e0b 50%, #d97706 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* Atmospheric Custom Scrollbars with warm amber accents */
@@ -20,12 +52,12 @@
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #100b07;
+  background: #0d0805;
 }
 ::-webkit-scrollbar-thumb {
-  background: #32251a;
+  background: #322317;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #78350f;
+  background: #b45309;
 }

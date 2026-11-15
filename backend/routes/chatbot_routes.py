@@ -63,7 +63,7 @@ def reset_database():
         seed_database()
         return jsonify({
             "status": "success",
-            "message": "SQLite database re-seeded successfully with standard academic demonstration dataset."
+            "message": "SQLite database re-seeded successfully with authentic NCR beverage catalog."
         }), 200
     except Exception as e:
         return jsonify({
