@@ -1,656 +1,203 @@
-# NCRB-BOOZE-COMPARE
+# NCRB BOOZE COMPARE
 
-# MASTER_PROMPT.md
-
-# PROJECT NAME: NCRB BOOZE COMPARE
-
-## 1. PROJECT INFORMATION
-
-**Project Name:** NCRB BOOZE COMPARE
-
-**Student Name:** Prashant Pandey
-
-**Project Type:** College Academic Project
-  
-**Project Purpose:** Educational and Academic Demonstration
-
-**Application Type:** Full-Stack Web Application
-
-The application is designed to demonstrate product-data comparison, regional data visualization, database management, and AI chatbot integration.
-
-The project is intended for a college demonstration and is not intended for public commercial release.
-
-All product prices, product records, and regional comparisons must use fictional sample data clearly marked as DEMO DATA.
+> **COLLEGE DEMONSTRATION PROJECT — FICTIONAL DATA ONLY**  
+> All product records, prices, and regional comparisons are strictly simulated demonstration data created for educational evaluation. Not intended for commercial release, live pricing, or purchasing assistance.
 
 ---
 
-# 2. PROJECT OBJECTIVE
+## 1. Project Information
 
-Develop a modern web application named NCRB BOOZE COMPARE.
-
-The application will demonstrate how a product comparison platform can organize sample product information and compare fictional values across different regions.
-
-The application should include:
-
-1. Sample product catalogue.
-2. Product comparison dashboard.
-3. Fictional regional comparison.
-4. Sample price analytics.
-5. Interactive charts and graphs.
-6. Search and filtering functionality.
-7. AI-powered chatbot.
-8. Admin dashboard.
-9. User-friendly interface.
-10. Database integration.
-
-All comparison values must be fictional and must not be represented as actual market prices or retailer information.
+- **Project Name:** NCRB BOOZE COMPARE
+- **Student Name:** Prashant Pandey
+- **Project Type:** College Academic Project (Educational & Academic Demonstration)
+- **Application Type:** Full-Stack Web Application (React.js + Tailwind CSS + Python Flask + SQLite3)
+- **Purpose:** Demonstrate product comparison algorithms, geographic price variance simulation, Chart.js analytics, relational database management, and AI chatbot integration with safety guardrails.
 
 ---
 
-# 3. TECHNOLOGY STACK
+## 2. Technology Stack
 
-Use the following technologies:
+### Frontend
+- **Framework:** React.js 18 (Vite SPA)
+- **Styling:** Tailwind CSS with modern dark slate theme
+- **Icons:** Lucide React
+- **Visualizations:** Chart.js & React-Chartjs-2 (Bar, Pie/Doughnut, Line charts)
+- **Routing:** React Router v6
+- **HTTP Client:** Axios with backend proxy
 
-## Frontend
-- React.js
-- Vite
-- HTML5
-- CSS3
-- JavaScript
-- Tailwind CSS
+### Backend
+- **Language & Framework:** Python 3.14 + Flask 3.1
+- **API Architecture:** RESTful API with Flask Blueprints
+- **CORS:** Flask-CORS for cross-origin resource sharing
+- **Environment Management:** python-dotenv
 
-## Backend
-- Python
-- Flask
-- REST API
+### Database
+- **Engine:** SQLite3 (`database/ncrb_demo.db`)
+- **Query Method:** 100% Parameterized SQL queries preventing SQL injection
+- **Data Integrity:** Foreign key enforcement (`PRAGMA foreign_keys = ON`)
 
-## Database
-- SQLite
-
-## Charts
-- Chart.js
-- React-Chartjs-2
-
-## AI Chatbot
-- OpenAI API or another supported AI API.
-- Python Flask backend integration.
-- Environment variables for API keys.
-
-## Development Tools
-- Visual Studio Code
-- Git
-- GitHub
-- Postman
-- Browser Developer Tools
-
-Choose beginner-friendly implementations and explain each step.
-
-Never expose API keys in frontend code.
+### AI Chatbot
+- **Engine:** NCRB AI ASSISTANT
+- **Dual Architecture:** OpenAI / Gemini API integration when `.env` is configured + comprehensive built-in offline academic knowledge engine for viva presentations
+- **Compliance Filter:** Automated regex interceptor refusing real-world purchase requests, liquor store directions, or commercial pricing inquiries
 
 ---
 
-# 4. APPLICATION STRUCTURE
+## 3. Project Architecture
 
-Create the following application structure:
+```mermaid
+flowchart TD
+    subgraph Frontend ["React.js Single Page Application (Port 5173)"]
+        UI_Nav["Navbar & Responsive Sidebar"]
+        UI_Pages["Pages: Home, Dashboard, Comparison, Region Demo, Analytics, Awareness, About, Admin"]
+        UI_Charts["Chart.js Dynamic Graphs"]
+        UI_Chat["NCRB AI Assistant (Floating & Full Page)"]
+    end
 
-NCRB-BOOZE-COMPARE/
+    subgraph Backend ["Python Flask REST API (Port 5000)"]
+        API_Gateway["API Router (/api/...)"]
+        Prod_Route["/api/products (CRUD)"]
+        Reg_Route["/api/regions & /api/regions/demo-data"]
+        Comp_Route["/api/comparison & /api/analytics"]
+        Bot_Route["/api/chatbot & /api/chatbot/history"]
+        Admin_Route["/api/admin/reset"]
+        AI_Engine["NCRB AI Assistant Core + Offline Knowledge Engine"]
+    end
 
-│
-├── frontend/
-│   ├── public/
-│   │
-│   ├── src/
-│   │   ├── assets/
-│   │   ├── components/
-│   │   │   ├── Navbar.jsx
-│   │   │   ├── Sidebar.jsx
-│   │   │   ├── ProductCard.jsx
-│   │   │   ├── ComparisonTable.jsx
-│   │   │   ├── Chatbot.jsx
-│   │   │   └── Footer.jsx
-│   │   │
-│   │   ├── pages/
-│   │   │   ├── Home.jsx
-│   │   │   ├── Dashboard.jsx
-│   │   │   ├── Comparison.jsx
-│   │   │   ├── RegionComparison.jsx
-│   │   │   ├── Analytics.jsx
-│   │   │   ├── Awareness.jsx
-│   │   │   ├── About.jsx
-│   │   │   └── Admin.jsx
-│   │   │
-│   │   ├── services/
-│   │   │   └── api.js
-│   │   │
-│   │   ├── App.jsx
-│   │   ├── main.jsx
-│   │   └── index.css
-│   │
-│   └── package.json
-│
-├── backend/
-│   ├── app.py
-│   ├── database.py
-│   ├── models.py
-│   ├── chatbot.py
-│   ├── routes/
-│   │   ├── products.py
-│   │   ├── comparison.py
-│   │   └── chatbot_routes.py
-│   │
-│   ├── seed_data.py
-│   └── requirements.txt
-│
-├── database/
-│   └── ncrb_demo.db
-│
-├── docs/
-│   ├── architecture.md
-│   └── project_documentation.md
-│
-├── .env.example
-├── .gitignore
-└── README.md
+    subgraph Storage ["SQLite Database"]
+        DB_File[("database/ncrb_demo.db")]
+    end
+
+    Frontend -->|HTTP / JSON (REST)| Backend
+    API_Gateway --> Prod_Route
+    API_Gateway --> Reg_Route
+    API_Gateway --> Comp_Route
+    API_Gateway --> Bot_Route
+    API_Gateway --> Admin_Route
+    Bot_Route --> AI_Engine
+    Backend -->|Parameterized SQL| DB_File
+```
 
 ---
 
-# 5. MAIN APPLICATION MODULES
+## 4. Relational Database Design
 
-## MODULE 1: HOME PAGE
+```mermaid
+erDiagram
+    PRODUCTS ||--o{ REGIONAL_DEMO_DATA : "has prices in"
+    REGIONS ||--o{ REGIONAL_DEMO_DATA : "contains prices for"
 
-Create a professional landing page.
+    PRODUCTS {
+        INTEGER id PK
+        TEXT name "e.g., Sample Brand A"
+        TEXT category "e.g., Category A"
+        TEXT package_size "e.g., 750 ml Sample Bottle"
+        TEXT description "Simulated product description"
+        REAL demo_value "Baseline simulated price"
+        BOOLEAN is_fictional "Flag (Always 1)"
+    }
 
-Include:
+    REGIONS {
+        INTEGER id PK
+        TEXT region_name "e.g., Demo Zone 1"
+        TEXT description "Simulated regional market"
+        BOOLEAN is_fictional "Flag (Always 1)"
+    }
 
-- Project logo and title.
-- Navigation bar.
-- Welcome section.
-- Project introduction.
-- Dashboard navigation.
-- Comparison section.
-- AI chatbot shortcut.
-- College demonstration disclaimer.
+    REGIONAL_DEMO_DATA {
+        INTEGER id PK
+        INTEGER product_id FK
+        INTEGER region_id FK
+        REAL demo_value "Simulated price in region"
+        BOOLEAN is_fictional "Flag (Always 1)"
+    }
 
-Display a prominent notice:
+    CHATBOT_HISTORY {
+        INTEGER id PK
+        TEXT user_message "User prompt"
+        TEXT assistant_response "AI response"
+        DATETIME created_at "Timestamp"
+    }
 
-"COLLEGE DEMONSTRATION PROJECT - FICTIONAL DATA ONLY"
-
-## MODULE 2: DASHBOARD
-
-Create an interactive dashboard.
-
-Display:
-
-- Total sample products.
-- Number of sample categories.
-- Number of demo regions.
-- Comparison statistics.
-- Regional sample-data chart.
-- Category distribution chart.
-
-Use cards and charts.
-
-All displayed numbers must be generated from fictional sample data.
-
-## MODULE 3: PRODUCT COMPARISON
-
-Create a comparison page.
-
-Use fictional products:
-
-- Sample Brand A
-- Sample Brand B
-- Sample Brand C
-- Sample Brand D
-- Sample Brand E
-
-Include fictional attributes:
-
-- Product name
-- Category
-- Demonstration package size
-- Fictional sample value
-- Sample category
-- Description
-
-Allow users to select two or more sample products and compare their attributes.
-
-Show the results in a comparison table.
-
-Do not use actual alcohol brands or actual selling prices.
-
-## MODULE 4: REGIONAL COMPARISON
-
-Create a regional comparison interface.
-
-Use fictional demonstration regions:
-
-- Demo Zone 1
-- Demo Zone 2
-- Demo Zone 3
-- Demo Zone 4
-
-Show fictional regional statistics.
-
-Features:
-
-- Region selection.
-- Comparison charts.
-- Sample value differences.
-- Regional data table.
-
-Do not display real alcohol retailers, shop addresses, maps, distances, or directions.
-
-## MODULE 5: ANALYTICS
-
-Create an analytics page using Chart.js.
-
-Include:
-
-1. Bar chart.
-2. Pie chart.
-3. Line chart.
-4. Regional sample-data comparison.
-5. Category distribution.
-
-Charts must be generated dynamically from the SQLite database.
-
-Display the following notice:
-
-"All figures shown are fictional demonstration data."
-
-## MODULE 6: AI CHATBOT
-
-Create an AI chatbot integrated into the application.
-
-Chatbot name:
-
-NCRB AI ASSISTANT
-
-### Chatbot features
-
-- Answer questions about the project.
-- Explain dashboard features.
-- Explain comparison tables.
-- Explain sample datasets.
-- Explain charts.
-- Answer general alcohol-awareness questions.
-- Guide users through the application.
-
-### Chatbot interface
-
-Include:
-
-- Chat window.
-- User message bubbles.
-- Assistant message bubbles.
-- Message input field.
-- Send button.
-- Loading indicator.
-- Clear chat option.
-
-### Chatbot integration
-
-Use:
-
-Frontend:
-React.js
-
-Backend:
-Python Flask
-
-AI:
-OpenAI API or another supported AI provider.
-
-API keys must be stored in environment variables.
-
-### Chatbot system instructions
-
-You are NCRB AI ASSISTANT.
-
-Your job is to help users understand the NCRB BOOZE COMPARE academic demonstration application.
-
-You should:
-
-- Explain the application's features.
-- Explain fictional sample data.
-- Help users understand comparison charts.
-- Answer general educational and safety questions.
-- Use simple and understandable language.
-
-You must not:
-
-- Provide real alcohol shop locations.
-- Provide actual alcohol prices or availability.
-- Help users purchase alcohol.
-- Provide directions to alcohol retailers.
-- Recommend alcohol consumption or intoxication.
-
-Clearly explain when information is fictional.
-
-If a user asks for real-world purchasing information, politely explain that this application is an academic demonstration and does not provide purchasing assistance.
+    DATA_SOURCES {
+        INTEGER id PK
+        TEXT source_name "Citation name"
+        TEXT source_url "Reference link"
+        TEXT description "Relevance notes"
+        DATETIME last_verified "Timestamp"
+    }
+```
 
 ---
 
-# 6. FICTIONAL SAMPLE DATA
+## 5. Main Application Modules
 
-Create a fictional dataset for demonstration purposes.
-
-IMPORTANT:
-
-All names and values below are illustrative placeholders, not actual products or market prices.
-
-Example dataset:
-
-| ID | Product Name | Category | Demo Value |
-|----|--------------|----------|------------|
-| 1 | Sample Brand A | Category A | ₹1,200 |
-| 2 | Sample Brand B | Category A | ₹1,500 |
-| 3 | Sample Brand C | Category B | ₹950 |
-| 4 | Sample Brand D | Category B | ₹1,800 |
-| 5 | Sample Brand E | Category C | ₹2,000 |
-
-Example regional dataset:
-
-| Region | Sample Value |
-|--------|--------------|
-| Demo Zone 1 | ₹1,200 |
-| Demo Zone 2 | ₹1,350 |
-| Demo Zone 3 | ₹1,100 |
-| Demo Zone 4 | ₹1,450 |
-
-These values must always be labelled:
-
-DEMO DATA - NOT REAL
-
-Do not associate these fictional records with actual stores or actual market conditions.
+1. **Home Page (`/`)**: High-impact landing page featuring academic credentials, persistent demo disclaimer, quick KPI preview, and featured sample catalog cards.
+2. **Dashboard (`/dashboard`)**: Executive dashboard with 4 metric cards (Total Products, Categories, Zones, Avg Value), Regional Average Bar Chart, and Category Doughnut Chart.
+3. **Product Comparison (`/compare`)**: Side-by-side attribute comparison table (2 to 4 products) displaying package sizes, simulated base values, regional zone breakdowns, and lowest/highest difference badges.
+4. **Regional Demo (`/regions`)**: Zone selector (Demo Zones 1–4) with comparative deviation analytics and full price breakdown matrix.
+5. **Analytics Studio (`/analytics`)**: Interactive Chart.js studio with Bar chart, Pie chart, and Line progression curve.
+6. **Alcohol Awareness (`/awareness`)**: Educational module detailing Minimum Legal Drinking Age (MLDA) laws across Delhi NCR/India, medical liver/metabolic risks, and toll-free helplines (Tele-MANAS, KIRAN 1800-599-0019).
+7. **NCRB AI Assistant (`/chatbot`)**: Dual-engine academic assistant available as a full-page chat and a floating interactive modal. Politely refuses real-world liquor shopping requests.
+8. **Admin Portal (`/admin`)**: Create, Read, Update, Delete (CRUD) operations on demo records, plus one-click "Reset Demo Database" functionality.
+9. **About & Viva Guide (`/about`)**: Complete project summary, student credentials (Prashant Pandey), system architecture breakdown, and top 6 viva questions and model answers.
 
 ---
 
-# 7. DATABASE DESIGN
-
-Use SQLite.
-
-Create the following tables.
-
-## TABLE 1: products
-
-| Column | Type |
-|--------|------|
-| id | INTEGER PRIMARY KEY |
-| name | TEXT |
-| category | TEXT |
-| package_size | TEXT |
-| description | TEXT |
-| demo_value | REAL |
-| is_fictional | BOOLEAN |
-
-## TABLE 2: regions
-
-| Column | Type |
-|--------|------|
-| id | INTEGER PRIMARY KEY |
-| region_name | TEXT |
-| description | TEXT |
-| is_fictional | BOOLEAN |
-
-## TABLE 3: regional_demo_data
-
-| Column | Type |
-|--------|------|
-| id | INTEGER PRIMARY KEY |
-| product_id | INTEGER |
-| region_id | INTEGER |
-| demo_value | REAL |
-| is_fictional | BOOLEAN |
-
-Use foreign keys to connect products and regions.
-
-## TABLE 4: chatbot_history
-
-| Column | Type |
-|--------|------|
-| id | INTEGER PRIMARY KEY |
-| user_message | TEXT |
-| assistant_response | TEXT |
-| created_at | DATETIME |
-
-Store only necessary chatbot information. Avoid collecting sensitive personal information.
-
-## TABLE 5: data_sources
-
-| Column | Type |
-|--------|------|
-| id | INTEGER PRIMARY KEY |
-| source_name | TEXT |
-| source_url | TEXT |
-| description | TEXT |
-| last_verified | DATETIME |
-
-Use this table for educational information sources.
-
----
-
-# 8. USER INTERFACE DESIGN
-
-Design a modern and professional interface.
-
-### Theme
-
-- Dark navy background.
-- White cards.
-- Blue accent colors.
-- Clean typography.
-- Rounded cards.
-- Subtle animations.
-- Responsive layout.
-
-### Navigation
-
-Create a sidebar containing:
-
-1. Home
-2. Dashboard
-3. Comparison
-4. Region Demo
-5. Analytics
-6. Awareness
-7. AI Assistant
-8. About
-
-### Responsive design
-
-The application must work on:
-
-- Desktop.
-- Laptop.
-- Tablet.
-- Mobile phones.
-
-Use reusable React components.
-
----
-
-# 9. ADMIN DASHBOARD
-
-Create an admin dashboard for managing the fictional demonstration dataset.
-
-Admin features:
-
-- Add sample product.
-- Edit sample product.
-- Delete sample product.
-- Add fictional region.
-- Update sample values.
-- View dashboard statistics.
-
-All records must remain fictional.
-
-Do not add real retailer or alcohol inventory management.
-
----
-
-# 10. API ENDPOINTS
-
-Create REST API endpoints.
-
-Products:
-
-GET /api/products
-
-GET /api/products/<id>
-
-POST /api/products
-
-PUT /api/products/<id>
-
-DELETE /api/products/<id>
-
-Regions:
-
-GET /api/regions
-
-GET /api/regions/demo-data
-
-Comparison:
-
-GET /api/comparison
-
-GET /api/analytics
-
-Chatbot:
-
-POST /api/chatbot
-
-All endpoints must validate input and return appropriate error responses.
-
----
-
-# 11. SECURITY REQUIREMENTS
-
-- Keep API keys in environment variables.
-- Validate user input.
-- Use parameterized SQL queries.
-- Avoid storing unnecessary personal data.
-- Add appropriate API error handling.
-- Restrict admin functionality.
-- Never expose secret credentials in GitHub.
-- Clearly label all fictional records.
-
----
-
-# 12. TESTING REQUIREMENTS
-
-Test the following:
-
-1. Home page loads correctly.
-2. Dashboard displays sample data.
-3. Comparison table works.
-4. Region selection works.
-5. Charts display correctly.
-6. Chatbot responds to educational questions.
-7. Chatbot refuses real-world purchasing requests.
-8. Database operations work.
-9. Responsive layout works.
-10. Invalid inputs show appropriate errors.
-
----
-
-# 13. INSTALLATION AND EXECUTION
-
-Provide beginner-friendly installation instructions.
-
-Frontend:
-
+## 6. Installation & Execution
+
+### Prerequisites
+- Python 3.10+ (Tested on Python 3.14)
+- Node.js 18+ & npm (Prebuilt standalone included in `.node/`)
+
+### Step 1: Backend Setup
+```bash
+# 1. Create and activate virtual environment
+python3 -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# 2. Install dependencies
+pip install -r backend/requirements.txt
+
+# 3. Initialize and seed SQLite database
+python backend/seed_data.py
+
+# 4. Start Flask server
+python backend/app.py
+# Backend runs at http://localhost:5000
+```
+
+### Step 2: Frontend Setup
+```bash
+# 1. Navigate to frontend directory
+cd frontend
+
+# 2. Install dependencies
 npm install
 
+# 3. Start Vite development server
 npm run dev
-
-Backend:
-
-python -m venv venv
-
-Activate the virtual environment.
-
-Install requirements:
-
-pip install -r requirements.txt
-
-Run backend:
-
-python app.py
-
-Explain how to configure environment variables and initialize the SQLite database.
+# Frontend runs at http://localhost:5173
+```
 
 ---
 
-# 14. DOCUMENTATION
+## 7. College Viva Presentation Checklist & Questions
 
-Create a complete README.md containing:
+- **Student:** Prashant Pandey
+- **Topic:** Full-Stack Product Comparison with Regional Analytics and Ethical AI Integration
+- **Key Concepts:** Client-Server decoupling, Parameterized SQLite queries, Chart.js dynamic data binding, AI safety prompt guardrails.
 
-- Project introduction.
-- Project objectives.
-- Technology stack.
-- Project structure.
-- Database design.
-- Features.
-- Installation instructions.
-- Execution instructions.
-- Screenshots checklist.
-- Limitations.
-- Future scope.
-
-Also prepare:
-
-- Project architecture diagram.
-- Database ER diagram.
-- Application flowchart.
-- College presentation explanation.
-- Viva questions and answers.
+### Top Viva Questions & Answers:
+1. **Q: Why does the project use fictional sample data?**  
+   *A:* To comply with academic safety standards and avoid promoting commercial alcohol brands or facilitating alcohol purchases.
+2. **Q: How does the comparison logic highlight differences?**  
+   *A:* The backend computes min, max, and variance values across selected product IDs, while the React UI dynamically applies highlight badges to the lowest and highest values.
+3. **Q: How is the AI chatbot prevented from assisting with real alcohol purchases?**  
+   *A:* The backend intercepts queries matching purchase/location keywords (`buy`, `near me`, `liquor shop`, `theka`, `order`, etc.) and returns an academic compliance refusal notice.
 
 ---
 
-# 15. DEVELOPMENT INSTRUCTIONS
+## 8. License & Academic Disclaimer
 
-Build the application step by step.
-
-Do not generate incomplete code.
-
-For every file:
-
-1. Give its filename.
-2. Explain its purpose.
-3. Provide complete working code.
-4. Explain where to save it.
-5. Provide terminal commands.
-6. Explain how to test it.
-
-Use clean, readable code.
-
-Keep the implementation beginner-friendly.
-
-Do not skip database setup, API integration, or chatbot testing.
-
-First provide the project architecture and UI plan.
-
-After that, wait for my approval before generating the complete source code.
-
----
-
-# FINAL PROJECT REQUIREMENT
-
-The exact project title is:
-
-NCRB BOOZE COMPARE
-
-Student:
-
-Prashant Pandey
-
-Project Type:
-
-College Academic Demonstration.
-
-The project must demonstrate full-stack development, database management, data comparison, charts, and chatbot integration.
-
-All product and regional comparison values must be fictional and visibly labelled as demonstration data.
+This project is created by **Prashant Pandey** exclusively for academic evaluation and educational demonstration. It is not affiliated with any government excise department or commercial retailer.
