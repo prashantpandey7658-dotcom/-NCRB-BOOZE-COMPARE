@@ -34,15 +34,18 @@ def init_db():
         description TEXT,
         demo_value REAL NOT NULL,
         brand_url TEXT,
+        image_url TEXT,
+        availability TEXT,
         is_fictional BOOLEAN DEFAULT 0
     );
     """)
 
-    # Ensure brand_url column exists if table was created earlier
-    try:
-        cursor.execute("ALTER TABLE products ADD COLUMN brand_url TEXT;")
-    except sqlite3.OperationalError:
-        pass # Column already exists
+    # Ensure optional columns exist if table was created earlier
+    for col in [("brand_url", "TEXT"), ("image_url", "TEXT"), ("availability", "TEXT")]:
+        try:
+            cursor.execute(f"ALTER TABLE products ADD COLUMN {col[0]} {col[1]};")
+        except sqlite3.OperationalError:
+            pass # Column already exists
 
     # Table 2: regions
     cursor.execute("""

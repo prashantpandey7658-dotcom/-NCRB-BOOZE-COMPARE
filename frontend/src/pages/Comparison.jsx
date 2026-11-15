@@ -3,11 +3,9 @@ import {
   GitCompare,
   Search,
   Filter,
-  CheckSquare,
-  Square,
   Trash2,
-  ShieldAlert,
-  ArrowRight
+  ArrowRight,
+  Wine
 } from 'lucide-react';
 import api from '../services/api';
 import ComparisonTable from '../components/ComparisonTable';
@@ -62,11 +60,11 @@ export default function Comparison({ selectedCompareIds, onToggleCompare, onClea
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight flex items-center gap-2.5">
-            <GitCompare className="w-7 h-7 text-brand-cyan" />
-            Product Comparison Dashboard
+            <GitCompare className="w-7 h-7 text-amber-400" />
+            Brand Comparison Matrix
           </h1>
-          <p className="text-xs text-slate-400 mt-1">
-            Select 2 or more sample items to evaluate multi-attribute differences and regional demo prices.
+          <p className="text-xs text-stone-400 mt-1">
+            Compare genuine alcohol brands side-by-side with bottle photos, indicative retail MRPs, and cross-zone prices.
           </p>
         </div>
 
@@ -83,26 +81,26 @@ export default function Comparison({ selectedCompareIds, onToggleCompare, onClea
 
       {/* Comparison Metrics Summary Banner */}
       {comparisonMetrics && comparisonData.length > 1 && (
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 rounded-2xl bg-navy-800/80 border border-blue-500/20">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-5 rounded-2xl bg-lounge-800/90 border border-amber-500/30 shadow-lg shadow-amber-500/5">
           <div>
-            <span className="text-[10px] text-slate-400 uppercase font-semibold block">Comparing</span>
-            <span className="text-lg font-bold text-brand-cyan">{comparisonMetrics.count} Items</span>
+            <span className="text-[10px] text-stone-400 uppercase font-semibold block">Comparing</span>
+            <span className="text-xl font-black text-amber-300">{comparisonMetrics.count} Brands</span>
           </div>
           <div>
-            <span className="text-[10px] text-slate-400 uppercase font-semibold block">Lowest Demo Value</span>
-            <span className="text-lg font-bold text-emerald-400">
+            <span className="text-[10px] text-stone-400 uppercase font-semibold block">Lowest Base MRP</span>
+            <span className="text-xl font-black text-emerald-400">
               ₹{Number(comparisonMetrics.min_demo_value).toLocaleString('en-IN')}
             </span>
           </div>
           <div>
-            <span className="text-[10px] text-slate-400 uppercase font-semibold block">Highest Demo Value</span>
-            <span className="text-lg font-bold text-amber-400">
+            <span className="text-[10px] text-stone-400 uppercase font-semibold block">Highest Base MRP</span>
+            <span className="text-xl font-black text-amber-400">
               ₹{Number(comparisonMetrics.max_demo_value).toLocaleString('en-IN')}
             </span>
           </div>
           <div>
-            <span className="text-[10px] text-slate-400 uppercase font-semibold block">Max Price Spread</span>
-            <span className="text-lg font-bold text-purple-400">
+            <span className="text-[10px] text-stone-400 uppercase font-semibold block">Max Price Spread</span>
+            <span className="text-xl font-black text-amber-200">
               ₹{Number(comparisonMetrics.max_difference).toLocaleString('en-IN')}
             </span>
           </div>
@@ -112,9 +110,9 @@ export default function Comparison({ selectedCompareIds, onToggleCompare, onClea
       {/* Side-by-Side Comparison Matrix */}
       <section className="space-y-4">
         <h2 className="text-lg font-bold text-white flex items-center justify-between">
-          <span>Comparative Matrix View</span>
-          <span className="text-xs font-normal text-slate-400">
-            {selectedCompareIds.length === 0 ? 'No items selected' : `${selectedCompareIds.length} items active`}
+          <span>Comparative Matrix</span>
+          <span className="text-xs font-medium text-amber-400/90">
+            {selectedCompareIds.length === 0 ? 'No brands selected' : `${selectedCompareIds.length} brands in comparison`}
           </span>
         </h2>
         <ComparisonTable
@@ -124,23 +122,23 @@ export default function Comparison({ selectedCompareIds, onToggleCompare, onClea
       </section>
 
       {/* Product Selection Catalog */}
-      <section className="space-y-5 pt-6 border-t border-navy-700/80">
+      <section className="space-y-5 pt-6 border-t border-lounge-700/80">
         <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
           <div>
-            <h2 className="text-lg font-bold text-white">Select Demonstration Products</h2>
-            <p className="text-xs text-slate-400">Click Compare on any item below to add or remove it.</p>
+            <h2 className="text-lg font-bold text-white">Select Brands to Compare</h2>
+            <p className="text-xs text-stone-400">Click Compare on any item below to add or remove it from the table.</p>
           </div>
 
           <div className="flex flex-col sm:flex-row items-center gap-3">
             {/* Search */}
-            <div className="relative w-full sm:w-60">
-              <Search className="w-4 h-4 absolute left-3 top-3 text-slate-400" />
+            <div className="relative w-full sm:w-64">
+              <Search className="w-4 h-4 absolute left-3 top-3 text-stone-400" />
               <input
                 type="text"
-                placeholder="Search products..."
+                placeholder="Search by brand name..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full bg-navy-800 border border-navy-700 focus:border-brand-cyan rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none"
+                className="w-full bg-lounge-800 border border-lounge-700 focus:border-amber-400 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-stone-500 focus:outline-none"
               />
             </div>
 
@@ -150,10 +148,10 @@ export default function Comparison({ selectedCompareIds, onToggleCompare, onClea
                 <button
                   key={cat}
                   onClick={() => setSelectedCategory(cat)}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition ${
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition ${
                     selectedCategory === cat
-                      ? 'bg-blue-600 text-white shadow-sm'
-                      : 'bg-navy-800 text-slate-400 hover:text-white hover:bg-navy-700 border border-navy-700'
+                      ? 'bg-amber-500 text-lounge-950 shadow-md shadow-amber-500/20'
+                      : 'bg-lounge-800 text-stone-400 hover:text-white hover:bg-lounge-750 border border-lounge-700'
                   }`}
                 >
                   {cat}
@@ -165,8 +163,8 @@ export default function Comparison({ selectedCompareIds, onToggleCompare, onClea
 
         {/* Products Grid */}
         {filteredProducts.length === 0 ? (
-          <div className="p-10 text-center rounded-2xl bg-navy-800 border border-navy-700 text-slate-400">
-            <p className="text-sm">No sample products match your filter criteria.</p>
+          <div className="p-10 text-center rounded-2xl bg-lounge-800 border border-lounge-700 text-stone-400">
+            <p className="text-sm">No brands match your filter criteria.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

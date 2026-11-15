@@ -8,7 +8,9 @@ import {
   AlertTriangle,
   CheckCircle,
   X,
-  ExternalLink
+  ExternalLink,
+  MapPin,
+  Image as ImageIcon
 } from 'lucide-react';
 import api from '../services/api';
 
@@ -24,10 +26,12 @@ export default function Admin() {
   const [formData, setFormData] = useState({
     name: '',
     category: 'Beer',
-    package_size: '750 ml Bottle',
+    package_size: '650 ml Bottle',
     description: '',
     demo_value: '',
     brand_url: '',
+    image_url: '',
+    availability: '',
   });
 
   const loadData = () => {
@@ -55,10 +59,12 @@ export default function Admin() {
     setFormData({
       name: '',
       category: categories[0] || 'Beer',
-      package_size: '750 ml Bottle',
+      package_size: '650 ml Bottle',
       description: '',
       demo_value: '',
       brand_url: '',
+      image_url: '',
+      availability: 'Available across authorized NCR excise vends',
     });
     setModalOpen(true);
   };
@@ -72,6 +78,8 @@ export default function Admin() {
       description: p.description || '',
       demo_value: p.demo_value,
       brand_url: p.brand_url || '',
+      image_url: p.image_url || '',
+      availability: p.availability || '',
     });
     setModalOpen(true);
   };
@@ -110,7 +118,7 @@ export default function Admin() {
   };
 
   const handleResetDatabase = async () => {
-    if (!window.confirm('Reset the database back to default genuine brands dataset (Kingfisher, Old Monk, Glenfiddich, etc.)?')) return;
+    if (!window.confirm('Reset database to default genuine brands dataset (Kingfisher, Old Monk, Glenfiddich, etc.)?')) return;
     try {
       await api.resetDatabase();
       showNotification('Database re-seeded successfully with genuine brand baseline data.');
@@ -126,11 +134,11 @@ export default function Admin() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight flex items-center gap-2.5">
-            <SlidersHorizontal className="w-7 h-7 text-brand-cyan" />
-            Admin Brand & Catalog Portal
+            <SlidersHorizontal className="w-7 h-7 text-amber-400" />
+            Catalog & Price Management
           </h1>
-          <p className="text-xs text-slate-400 mt-1">
-            Manage tracked brands, indicative MRP benchmark values, and official manufacturer links in SQLite.
+          <p className="text-xs text-stone-400 mt-1">
+            Manage genuine brands, bottle photography URLs, indicative MRPs, and retail availability across NCR zones.
           </p>
         </div>
 
@@ -146,7 +154,7 @@ export default function Admin() {
 
           <button
             onClick={handleOpenAdd}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-blue-600 hover:bg-blue-500 text-white shadow-md shadow-blue-500/25 transition"
+            className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold bg-amber-500 hover:bg-amber-400 text-lounge-950 shadow-md shadow-amber-500/20 transition"
           >
             <Plus className="w-4 h-4" />
             <span>Add Brand Record</span>
@@ -167,38 +175,49 @@ export default function Admin() {
       )}
 
       {/* Products Management Table */}
-      <div className="p-6 rounded-2xl bg-navy-800 border border-navy-700 space-y-4">
+      <div className="p-6 rounded-2xl bg-lounge-800 border border-lounge-700 space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="font-bold text-white text-base">Tracked Brands Catalog ({products.length})</h2>
-          <span className="text-xs text-brand-cyan font-medium">Indicative State Excise Benchmarks</span>
+          <h2 className="font-bold text-white text-base">Tracked Brands ({products.length})</h2>
+          <span className="text-xs text-amber-400 font-medium">State Excise Retail Benchmarks</span>
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
-              <tr className="border-b border-navy-700 text-slate-400 uppercase tracking-wider">
-                <th className="py-3 px-4">ID</th>
-                <th className="py-3 px-4">Brand Name</th>
+              <tr className="border-b border-lounge-700 text-stone-400 uppercase tracking-wider font-semibold">
+                <th className="py-3 px-4">Brand</th>
                 <th className="py-3 px-4">Category</th>
                 <th className="py-3 px-4">Package</th>
                 <th className="py-3 px-4">Base MRP</th>
-                <th className="py-3 px-4">Official Link</th>
+                <th className="py-3 px-4">Availability</th>
+                <th className="py-3 px-4">Official Site</th>
                 <th className="py-3 px-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-navy-700/60 text-slate-300">
+            <tbody className="divide-y divide-lounge-750 text-stone-300">
               {products.map((p) => (
-                <tr key={p.id} className="hover:bg-navy-700/30">
-                  <td className="py-3 px-4 font-mono text-slate-400">{p.id}</td>
-                  <td className="py-3 px-4 font-semibold text-white">{p.name}</td>
+                <tr key={p.id} className="hover:bg-lounge-750/50">
+                  <td className="py-3 px-4 font-bold text-white flex items-center gap-2.5">
+                    {p.image_url && (
+                      <img
+                        src={p.image_url}
+                        alt={p.name}
+                        className="w-8 h-8 rounded-lg object-cover border border-amber-500/20"
+                      />
+                    )}
+                    <span>{p.name}</span>
+                  </td>
                   <td className="py-3 px-4">
-                    <span className="px-2 py-0.5 rounded bg-blue-500/10 text-brand-cyan border border-blue-500/20">
+                    <span className="px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20">
                       {p.category}
                     </span>
                   </td>
-                  <td className="py-3 px-4 text-slate-400">{p.package_size}</td>
-                  <td className="py-3 px-4 font-bold text-white">
+                  <td className="py-3 px-4 text-stone-400">{p.package_size}</td>
+                  <td className="py-3 px-4 font-black text-amber-400">
                     ₹{Number(p.demo_value).toLocaleString('en-IN')}
+                  </td>
+                  <td className="py-3 px-4 text-stone-300 max-w-[200px] truncate" title={p.availability}>
+                    {p.availability || 'Authorized NCR retail outlets'}
                   </td>
                   <td className="py-3 px-4">
                     {p.brand_url ? (
@@ -206,20 +225,20 @@ export default function Admin() {
                         href={p.brand_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-brand-cyan hover:underline"
+                        className="inline-flex items-center gap-1 text-amber-400 hover:underline"
                       >
                         <span>Website</span>
                         <ExternalLink className="w-3 h-3" />
                       </a>
                     ) : (
-                      <span className="text-slate-500">None</span>
+                      <span className="text-stone-500">None</span>
                     )}
                   </td>
                   <td className="py-3 px-4 text-right">
                     <div className="flex items-center justify-end gap-2">
                       <button
                         onClick={() => handleOpenEdit(p)}
-                        className="p-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-navy-700 transition"
+                        className="p-1.5 rounded-lg text-stone-300 hover:text-white hover:bg-lounge-700 transition"
                         title="Edit Brand"
                       >
                         <Pencil className="w-3.5 h-3.5" />
@@ -242,15 +261,15 @@ export default function Admin() {
 
       {/* Modal: Create or Edit Brand */}
       {modalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-navy-900 border border-navy-700 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-5">
-            <div className="flex items-center justify-between border-b border-navy-700 pb-3">
+        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-lounge-900 border border-amber-500/30 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-5 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between border-b border-lounge-700 pb-3">
               <h3 className="text-base font-bold text-white">
-                {editingProduct ? 'Edit Brand Record' : 'Add Genuine Brand Record'}
+                {editingProduct ? 'Edit Brand Record' : 'Add Brand Record'}
               </h3>
               <button
                 onClick={() => setModalOpen(false)}
-                className="p-1 text-slate-400 hover:text-white"
+                className="p-1 text-stone-400 hover:text-white"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -258,7 +277,7 @@ export default function Admin() {
 
             <form onSubmit={handleSubmit} className="space-y-4 text-xs">
               <div>
-                <label className="block text-slate-300 font-semibold mb-1">
+                <label className="block text-stone-300 font-semibold mb-1">
                   Brand Name *
                 </label>
                 <input
@@ -267,25 +286,25 @@ export default function Admin() {
                   placeholder="e.g., Kingfisher Ultra"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full bg-navy-800 border border-navy-700 rounded-xl px-3 py-2 text-white placeholder-slate-500 focus:outline-none focus:border-brand-cyan"
+                  className="w-full bg-lounge-800 border border-lounge-700 rounded-xl px-3 py-2 text-white placeholder-stone-500 focus:outline-none focus:border-amber-400"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-slate-300 font-semibold mb-1">Category *</label>
+                  <label className="block text-stone-300 font-semibold mb-1">Category *</label>
                   <input
                     type="text"
                     required
                     placeholder="e.g., Beer, Whisky, Rum"
                     value={formData.category}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                    className="w-full bg-navy-800 border border-navy-700 rounded-xl px-3 py-2 text-white placeholder-slate-500 focus:outline-none focus:border-brand-cyan"
+                    className="w-full bg-lounge-800 border border-lounge-700 rounded-xl px-3 py-2 text-white placeholder-stone-500 focus:outline-none focus:border-amber-400"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-300 font-semibold mb-1">Indicative MRP (₹) *</label>
+                  <label className="block text-stone-300 font-semibold mb-1">Indicative MRP (₹) *</label>
                   <input
                     type="number"
                     step="0.01"
@@ -293,56 +312,78 @@ export default function Admin() {
                     placeholder="e.g., 180"
                     value={formData.demo_value}
                     onChange={(e) => setFormData({ ...formData, demo_value: e.target.value })}
-                    className="w-full bg-navy-800 border border-navy-700 rounded-xl px-3 py-2 text-white placeholder-slate-500 focus:outline-none focus:border-brand-cyan"
+                    className="w-full bg-lounge-800 border border-lounge-700 rounded-xl px-3 py-2 text-white placeholder-stone-500 focus:outline-none focus:border-amber-400"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-slate-300 font-semibold mb-1">Package Size *</label>
+                <label className="block text-stone-300 font-semibold mb-1">Package Size *</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g., 650 ml Bottle / 500 ml Can"
                   value={formData.package_size}
                   onChange={(e) => setFormData({ ...formData, package_size: e.target.value })}
-                  className="w-full bg-navy-800 border border-navy-700 rounded-xl px-3 py-2 text-white placeholder-slate-500 focus:outline-none focus:border-brand-cyan"
+                  className="w-full bg-lounge-800 border border-lounge-700 rounded-xl px-3 py-2 text-white placeholder-stone-500 focus:outline-none focus:border-amber-400"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-300 font-semibold mb-1">Official Brand Link (URL)</label>
+                <label className="block text-stone-300 font-semibold mb-1">Bottle Image URL (High-Res Photo)</label>
+                <input
+                  type="url"
+                  placeholder="https://images.unsplash.com/..."
+                  value={formData.image_url}
+                  onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
+                  className="w-full bg-lounge-800 border border-lounge-700 rounded-xl px-3 py-2 text-white placeholder-stone-500 focus:outline-none focus:border-amber-400"
+                />
+              </div>
+
+              <div>
+                <label className="block text-stone-300 font-semibold mb-1">Retail Availability Details</label>
+                <input
+                  type="text"
+                  placeholder="e.g., Available across all authorized Delhi L-6 & Gurgaon L-2 outlets"
+                  value={formData.availability}
+                  onChange={(e) => setFormData({ ...formData, availability: e.target.value })}
+                  className="w-full bg-lounge-800 border border-lounge-700 rounded-xl px-3 py-2 text-white placeholder-stone-500 focus:outline-none focus:border-amber-400"
+                />
+              </div>
+
+              <div>
+                <label className="block text-stone-300 font-semibold mb-1">Official Brand Link (URL)</label>
                 <input
                   type="url"
                   placeholder="https://www.example.com"
                   value={formData.brand_url}
                   onChange={(e) => setFormData({ ...formData, brand_url: e.target.value })}
-                  className="w-full bg-navy-800 border border-navy-700 rounded-xl px-3 py-2 text-white placeholder-slate-500 focus:outline-none focus:border-brand-cyan"
+                  className="w-full bg-lounge-800 border border-lounge-700 rounded-xl px-3 py-2 text-white placeholder-stone-500 focus:outline-none focus:border-amber-400"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-300 font-semibold mb-1">Brand Description</label>
+                <label className="block text-stone-300 font-semibold mb-1">Brand Description & Tasting Notes</label>
                 <textarea
                   rows={3}
-                  placeholder="Official tasting notes and specification summary..."
+                  placeholder="Tasting notes and specification summary..."
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  className="w-full bg-navy-800 border border-navy-700 rounded-xl px-3 py-2 text-white placeholder-slate-500 focus:outline-none focus:border-brand-cyan resize-none"
+                  className="w-full bg-lounge-800 border border-lounge-700 rounded-xl px-3 py-2 text-white placeholder-stone-500 focus:outline-none focus:border-amber-400 resize-none"
                 />
               </div>
 
-              <div className="pt-3 border-t border-navy-700 flex items-center justify-end gap-2">
+              <div className="pt-3 border-t border-lounge-700 flex items-center justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setModalOpen(false)}
-                  className="px-4 py-2 rounded-xl text-slate-300 hover:text-white bg-navy-800 hover:bg-navy-700 transition"
+                  className="px-4 py-2 rounded-xl text-stone-300 hover:text-white bg-lounge-800 hover:bg-lounge-750 transition"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 rounded-xl text-white bg-blue-600 hover:bg-blue-500 font-semibold shadow-md transition"
+                  className="px-4 py-2 rounded-xl text-lounge-950 bg-amber-500 hover:bg-amber-400 font-bold shadow-md transition"
                 >
                   {editingProduct ? 'Save Changes' : 'Create Record'}
                 </button>

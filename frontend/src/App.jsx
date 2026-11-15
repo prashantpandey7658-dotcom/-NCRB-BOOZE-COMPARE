@@ -35,7 +35,7 @@ export default function App() {
 
   return (
     <Router>
-      <div className="min-h-screen bg-navy-950 text-slate-100 flex flex-col">
+      <div className="min-h-screen bg-[#080503] text-stone-200 flex flex-col">
         {/* Top Navbar */}
         <Navbar
           isSidebarOpen={isSidebarOpen}
@@ -83,9 +83,9 @@ export default function App() {
                 element={
                   <div className="max-w-3xl mx-auto space-y-4">
                     <div className="text-center space-y-1">
-                      <h1 className="text-2xl font-bold text-white">NCRB AI Assistant</h1>
-                      <p className="text-xs text-slate-400">
-                        Academic Guide for NCRB BOOZE COMPARE • Created by Prashant Pandey
+                      <h1 className="text-2xl font-black text-white">NCRB AI Assistant</h1>
+                      <p className="text-xs text-amber-300/80 font-medium">
+                        Digital Sommelier & Regional Price Guide • Curated by Prashant Pandey
                       </p>
                     </div>
                     <Chatbot />
@@ -106,16 +106,16 @@ export default function App() {
           ) : (
             <button
               onClick={() => setIsChatbotOpen(true)}
-              className="group flex items-center gap-2.5 px-4 py-3 rounded-full bg-gradient-to-r from-blue-600 to-brand-cyan hover:from-blue-500 hover:to-cyan-400 text-white font-bold text-xs shadow-2xl shadow-blue-500/40 hover:scale-105 transition-all"
+              className="group flex items-center gap-2.5 px-4 py-3 rounded-full bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-lounge-950 font-black text-xs shadow-2xl shadow-amber-500/40 hover:scale-105 transition-all"
               aria-label="Open NCRB AI Assistant"
             >
-              <Bot className="w-5 h-5 animate-bounce" />
+              <Bot className="w-5 h-5 animate-bounce text-lounge-950" />
               <span className="hidden sm:inline">Ask NCRB AI</span>
             </button>
           )}
         </div>
 
-        {/* Global Academic Footer */}
+        {/* Global Footer */}
         <Footer />
       </div>
     </Router>

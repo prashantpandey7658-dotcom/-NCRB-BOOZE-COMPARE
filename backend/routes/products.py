@@ -38,6 +38,8 @@ def create_product():
     description = data.get('description', '').strip()
     demo_value = data.get('demo_value')
     brand_url = data.get('brand_url', '').strip()
+    image_url = data.get('image_url', '').strip()
+    availability = data.get('availability', 'Available in major authorized NCR excise vends').strip()
 
     if not name or not category or not package_size or demo_value is None:
         return jsonify({
@@ -52,10 +54,10 @@ def create_product():
     except ValueError:
         return jsonify({"status": "error", "message": "demo_value must be a positive number"}), 400
 
-    new_id = ProductModel.create(name, category, package_size, description, val, brand_url)
+    new_id = ProductModel.create(name, category, package_size, description, val, brand_url, image_url, availability)
     return jsonify({
         "status": "success",
-        "message": "Sample product created successfully",
+        "message": "Product created successfully",
         "id": new_id
     }), 201
 
@@ -68,6 +70,8 @@ def update_product(product_id):
     description = data.get('description', '').strip()
     demo_value = data.get('demo_value')
     brand_url = data.get('brand_url', '').strip()
+    image_url = data.get('image_url', '').strip()
+    availability = data.get('availability', '').strip()
 
     if not name or not category or not package_size or demo_value is None:
         return jsonify({
@@ -82,13 +86,13 @@ def update_product(product_id):
     except ValueError:
         return jsonify({"status": "error", "message": "demo_value must be a positive number"}), 400
 
-    updated = ProductModel.update(product_id, name, category, package_size, description, val, brand_url)
+    updated = ProductModel.update(product_id, name, category, package_size, description, val, brand_url, image_url, availability)
     if not updated:
         return jsonify({"status": "error", "message": "Product not found or not modified"}), 404
 
     return jsonify({
         "status": "success",
-        "message": "Sample product updated successfully"
+        "message": "Product updated successfully"
     }), 200
 
 @products_bp.route('/products/<int:product_id>', methods=['DELETE'])

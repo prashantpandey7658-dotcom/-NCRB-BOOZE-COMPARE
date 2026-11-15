@@ -1,7 +1,7 @@
 """
 Seed genuine brand demonstration data for NCRB BOOZE COMPARE.
 Author: Prashant Pandey
-Purpose: Educational and Academic Price Comparison with Genuine Brands & Official Links
+Bar-Inspired Aesthetic with Genuine Products, High-Res Bottle Imagery, and Regional Availability
 """
 
 import os
@@ -24,19 +24,19 @@ def seed_database():
     cursor.execute("DELETE FROM data_sources;")
     cursor.execute("DELETE FROM sqlite_sequence;")
 
-    # 1. Insert NCR Demonstration Regions
+    # 1. Insert NCR Regional Zones
     regions = [
-        ("Delhi Zone (NCT)", "Delhi Excise Department baseline MRP benchmark zone", 0),
-        ("Gurugram Zone (Haryana)", "Haryana Excise Zone with competitive retail market structure", 0),
-        ("Noida Zone (Uttar Pradesh)", "UP Excise consolidated state duty and VAT benchmark zone", 0),
-        ("Faridabad Zone (Haryana)", "South NCR suburban retail sector with local excise parity", 0),
+        ("Delhi Zone (NCT)", "Govt. of NCT Delhi Excise Department benchmark zone (DTTDC / DSIIDC / DCCWS vends)", 0),
+        ("Gurugram Zone (Haryana)", "Haryana Excise Zone with competitive retail market structure (Cyber Hub, MG Road, Golf Course Rd)", 0),
+        ("Noida Zone (Uttar Pradesh)", "UP Excise consolidated state duty and VAT benchmark zone (Sec 18, Sec 62, Greater Noida)", 0),
+        ("Faridabad Zone (Haryana)", "South NCR suburban retail sector with local excise parity (Neelam Flyover, Mathura Rd)", 0),
     ]
     cursor.executemany(
         "INSERT INTO regions (region_name, description, is_fictional) VALUES (?, ?, ?);",
         regions
     )
 
-    # 2. Insert Genuine Brands with Realistic Indicative MRP & Official Links
+    # 2. Insert Genuine Brands with High-Res Images & Regional Availability
     products = [
         (
             "Kingfisher Premium Lager",
@@ -45,6 +45,8 @@ def seed_database():
             "India's iconic, crisp lager beer crafted with the finest malted barley and German hops. Brewed by United Breweries.",
             140.00,
             "https://www.kingfisherworld.com",
+            "https://images.unsplash.com/photo-1608270195725-d716d91f1659?auto=format&fit=crop&w=600&q=80",
+            "High availability across all Delhi DTTDC/DSIIDC vends and Haryana L-2 stores",
             0
         ),
         (
@@ -54,6 +56,8 @@ def seed_database():
             "Delightfully low-bitterness wheat beer brewed with French malt, curacao orange peel, and Himalayan coriander seeds.",
             170.00,
             "https://www.bira91.com",
+            "https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=600&q=80",
+            "Widely available in Delhi premium vends, Gurugram Cyber Hub, and Noida Sector 18",
             0
         ),
         (
@@ -63,6 +67,8 @@ def seed_database():
             "Super-premium American-style strong lager beer with smooth, full-bodied malt character aged over beechwood.",
             200.00,
             "https://www.budweiser.com",
+            "https://images.unsplash.com/photo-1571613316887-6f8d5cbf7ef7?auto=format&fit=crop&w=600&q=80",
+            "Available across all NCR authorized wine & beer retail shops",
             0
         ),
         (
@@ -72,6 +78,8 @@ def seed_database():
             "World-famous Mexican imported pale lager with a refreshing, crisp taste traditionally served with a fresh lime wedge.",
             250.00,
             "https://www.corona.com",
+            "https://images.unsplash.com/photo-1584225064785-c62a8b43d148?auto=format&fit=crop&w=600&q=80",
+            "Available at select premium Delhi L-6 vends, Gurugram Golf Course Rd, and Noida Mall vends",
             0
         ),
         (
@@ -81,6 +89,8 @@ def seed_database():
             "Legendary Indian vatted dark rum aged for 7 years in mature oak casks, renowned for its smooth vanilla, caramel, and spice aroma.",
             480.00,
             "https://www.oldmonkrum.in",
+            "https://images.unsplash.com/photo-1614313511387-1436a4480ebb?auto=format&fit=crop&w=600&q=80",
+            "Readily available at 100% of authorized liquor vends across Delhi, Haryana, and UP",
             0
         ),
         (
@@ -90,6 +100,8 @@ def seed_database():
             "Classic Puerto Rican white rum aged in white oak barrels and filtered through charcoal for exceptional smoothness in cocktails.",
             950.00,
             "https://www.bacardi.com",
+            "https://images.unsplash.com/photo-1527061011665-3652c757a4d4?auto=format&fit=crop&w=600&q=80",
+            "Consistently stocked at government and private retail vends in all four NCR sectors",
             0
         ),
         (
@@ -99,6 +111,8 @@ def seed_database():
             "Pioneering blend of imported Scottish malts and superior Indian grain spirits with a smooth, woody aroma.",
             550.00,
             "https://www.pernod-ricard.com",
+            "https://images.unsplash.com/photo-1527281400683-1aae777175f8?auto=format&fit=crop&w=600&q=80",
+            "Universal retail availability across Delhi, Gurugram, Noida, and Faridabad",
             0
         ),
         (
@@ -108,6 +122,8 @@ def seed_database():
             "Sophisticated blend crafted by master blenders combining Scottish malts aged in Solera barrels with fine Indian spirits.",
             1150.00,
             "https://www.pernod-ricard.com",
+            "https://images.unsplash.com/photo-1569529465841-dfecdab7503b?auto=format&fit=crop&w=600&q=80",
+            "Available in all authorized retail vends and model liquor shops",
             0
         ),
         (
@@ -117,6 +133,8 @@ def seed_database():
             "World-renowned charcoal-mellowed Tennessee whiskey matured in handcrafted American white oak barrels with notes of caramel and toasted wood.",
             2800.00,
             "https://www.jackdaniels.com",
+            "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=600&q=80",
+            "Available at premium government stores in Delhi and upscale private L-2 shops in Gurugram",
             0
         ),
         (
@@ -126,6 +144,8 @@ def seed_database():
             "Iconic blended Scotch whisky crafted using single malts aged for a minimum of 12 years across Scotland's four corners.",
             2950.00,
             "https://www.johnniewalker.com",
+            "https://images.unsplash.com/photo-1594970425785-5b48fb55ea7e?auto=format&fit=crop&w=600&q=80",
+            "High availability across all major NCR retail liquor establishments",
             0
         ),
         (
@@ -135,6 +155,8 @@ def seed_database():
             "The world's most awarded Speyside single malt Scotch whisky, matured in Oloroso sherry and bourbon oak casks with sweet pear notes.",
             4600.00,
             "https://www.glenfiddich.com",
+            "https://images.unsplash.com/photo-1527281400683-1aae777175f8?auto=format&fit=crop&w=600&q=80",
+            "Available at select high-end excise vends in Delhi, Gurgaon CyberCity, and Noida Sec 18",
             0
         ),
         (
@@ -144,6 +166,8 @@ def seed_database():
             "Premium Swedish winter-wheat vodka produced via continuous distillation in Åhus, with rich, full-bodied smoothness and pure grain character.",
             1650.00,
             "https://www.absolut.com",
+            "https://images.unsplash.com/photo-1550985616-10810253b84d?auto=format&fit=crop&w=600&q=80",
+            "Well-stocked across government liquor vends and private NCR retail outlets",
             0
         ),
         (
@@ -153,24 +177,21 @@ def seed_database():
             "Vapour-infused premium London dry gin crafted with 10 hand-selected exotic botanicals including juniper, coriander, and grains of paradise.",
             2200.00,
             "https://www.bombaysapphire.com",
+            "https://images.unsplash.com/photo-1607622750671-6cd9a99eabd1?auto=format&fit=crop&w=600&q=80",
+            "Available at major licensed liquor stores and departmental wine shops",
             0
         )
     ]
 
     cursor.executemany(
         """
-        INSERT INTO products (name, category, package_size, description, demo_value, brand_url, is_fictional)
-        VALUES (?, ?, ?, ?, ?, ?, ?);
+        INSERT INTO products (name, category, package_size, description, demo_value, brand_url, image_url, availability, is_fictional)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
         """,
         products
     )
 
     # 3. Insert Regional Variations across NCR Zones
-    # Realistic regional variance:
-    # 1: Delhi baseline (1.00x)
-    # 2: Gurugram (often 5% to 15% lower on beer and premium spirits due to Haryana retail pricing policy)
-    # 3: Noida (typically 5% to 10% higher due to UP state excise duties)
-    # 4: Faridabad (Haryana rates, slight variance)
     zone_multipliers = {
         1: 1.000, # Delhi baseline
         2: 0.900, # Gurugram (~10% lower)
@@ -194,27 +215,27 @@ def seed_database():
                 (p_id, z_id, regional_val)
             )
 
-    # 4. Insert Academic / Educational Data Sources
+    # 4. Insert State Excise & Awareness Citations
     sources = [
         (
-            "Delhi Excise Department Official Portal",
+            "Delhi State Excise Department (NCT)",
             "https://excise.delhi.gov.in",
-            "Official excise duty schedules, registration guidelines, and statutory reference prices for NCT of Delhi."
+            "Statutory retail price schedules, brand registration records, and legal vend guidelines for Delhi."
         ),
         (
-            "Haryana State Excise and Taxation Department",
+            "Haryana Excise & Taxation Department",
             "https://haryanatax.gov.in",
-            "Excise policy notifications and statutory guidelines for Gurugram and Faridabad."
+            "Excise policy notifications and statutory L-2 licensing frameworks for Gurugram and Faridabad."
         ),
         (
             "Uttar Pradesh Excise Department",
             "http://upexcise.in",
-            "State excise rate notifications and legal regulations for Noida and Greater Noida."
+            "State excise schedules and retail licensing regulations for Gautam Buddha Nagar (Noida)."
         ),
         (
-            "National Institute on Alcohol Abuse and Alcoholism (NIAAA)",
-            "https://www.niaaa.nih.gov",
-            "Verified research on health awareness, alcohol metabolism, and health risks."
+            "National Tele-MANAS Counseling Support",
+            "https://telemanas.mohfw.gov.in",
+            "National toll-free 24/7 mental health and de-addiction counseling helpline: 14416 / 1800-891-4416."
         )
     ]
     cursor.executemany(
@@ -230,15 +251,15 @@ def seed_database():
         """
         INSERT INTO chatbot_history (user_message, assistant_response)
         VALUES (
-            'How are prices compared across NCR zones?',
-            'Prices are benchmarked against official State Excise reference MRPs across Delhi, Gurugram, Noida, and Faridabad. You can compare popular brands like Kingfisher, Jack Daniel''s, and Glenfiddich side-by-side with official brand informational links.'
+            'Which NCR region has the best prices for beer and scotch?',
+            'Due to Haryana''s competitive retail licensing model, Gurugram generally reflects ~10% lower retail prices on imported beers and spirits compared to Delhi''s standard MRP schedule, while Noida reflects UP state excise levies.'
         );
         """
     )
 
     conn.commit()
     conn.close()
-    print("[Seed Data] Successfully seeded 13 genuine brands with official links, 4 NCR zones, and 52 regional price records.")
+    print("[Seed Data] Re-seeded with genuine brands, high-res bottle photos, and regional availability details.")
 
 if __name__ == "__main__":
     seed_database()
