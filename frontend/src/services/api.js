@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// Connect directly to Flask backend on port 5050 with CORS, or use custom VITE_API_URL
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5050/api';
+// Automatically use relative '/api' in production (Vercel) or VITE_API_URL, fallback to localhost:5050 in local dev
+const API_BASE_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '/api' : 'http://127.0.0.1:5050/api');
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,

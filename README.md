@@ -108,6 +108,16 @@ GEMINI_API_KEY=your_gemini_api_key_here
 GEMINI_MODEL=gemini-1.5-flash
 ```
 
+### Deploying to Vercel
+This repository is pre-configured with `vercel.json`, `api/index.py` (Flask serverless backend), and `requirements.txt` for 1-click zero-config Vercel deployment:
+1. Push this repository to GitHub: `https://github.com/prashantpandey7658-dotcom/-NCRB-BOOZE-COMPARE`
+2. Go to [vercel.com](https://vercel.com) and click **"Add New" → "Project"**.
+3. Import the `-NCRB-BOOZE-COMPARE` repository.
+4. (Optional) Add your environment variables in the Vercel dashboard:
+   - `GEMINI_API_KEY`: *(Your Google Gemini API Key for the live AI Sommelier)*
+   - `SECRET_KEY`: `ncrb-luxury-cellar-secret-key-2026`
+5. Click **Deploy**. Vercel will build the React SPA, launch the Python serverless API, and host your app live!
+
 ---
 
 ## 5. Statutory Compliance

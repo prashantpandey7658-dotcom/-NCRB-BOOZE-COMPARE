@@ -11,10 +11,25 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATABASE_DIR = os.path.join(BASE_DIR, 'database')
 DATABASE_PATH = os.path.join(DATABASE_DIR, 'ncrb_demo.db')
 
+def get_db_path():
+    """Returns database path, copying to /tmp in Vercel serverless environment."""
+    if os.getenv("VERCEL") or not os.access(DATABASE_DIR, os.W_OK):
+        tmp_db = "/tmp/ncrb_demo.db"
+        if not os.path.exists(tmp_db) and os.path.exists(DATABASE_PATH):
+            import shutil
+            shutil.copyfile(DATABASE_PATH, tmp_db)
+        if os.path.exists(tmp_db):
+            return tmp_db
+    try:
+        os.makedirs(DATABASE_DIR, exist_ok=True)
+    except OSError:
+        pass
+    return DATABASE_PATH
+
 def get_db_connection():
     """Create and return a database connection with dict-like row access."""
-    os.makedirs(DATABASE_DIR, exist_ok=True)
-    conn = sqlite3.connect(DATABASE_PATH)
+    db_path = get_db_path()
+    conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
     conn.execute("PRAGMA foreign_keys = ON;")
     return conn
