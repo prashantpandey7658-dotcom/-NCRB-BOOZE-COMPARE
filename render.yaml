@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: ncrb-booze-compare-api
+    runtime: python
+    region: oregon
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn backend.app:app
+    healthCheckPath: /api/health
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: SECRET_KEY
+        value: ncrb-luxury-cellar-secret-key-2026
+      - key: GEMINI_MODEL
+        value: gemini-1.5-flash
+      - key: GEMINI_API_KEY
+        sync: false

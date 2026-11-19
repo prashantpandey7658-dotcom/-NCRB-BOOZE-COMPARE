@@ -63,7 +63,7 @@ def create_app():
 app = create_app()
 
 if __name__ == '__main__':
-    port = int(os.getenv('FLASK_PORT', 5050))
+    port = int(os.getenv('PORT', os.getenv('FLASK_PORT', 5050)))
     debug = os.getenv('FLASK_ENV', 'development') == 'development'
     print(f"🚀 Starting NCRB BOOZE COMPARE backend on port {port} (debug={debug})...")
     app.run(host='0.0.0.0', port=port, debug=debug)

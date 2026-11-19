@@ -108,15 +108,36 @@ GEMINI_API_KEY=your_gemini_api_key_here
 GEMINI_MODEL=gemini-1.5-flash
 ```
 
-### Deploying to Vercel
-This repository is pre-configured with `vercel.json`, `api/index.py` (Flask serverless backend), and `requirements.txt` for 1-click zero-config Vercel deployment:
-1. Push this repository to GitHub: `https://github.com/prashantpandey7658-dotcom/-NCRB-BOOZE-COMPARE`
-2. Go to [vercel.com](https://vercel.com) and click **"Add New" → "Project"**.
-3. Import the `-NCRB-BOOZE-COMPARE` repository.
-4. (Optional) Add your environment variables in the Vercel dashboard:
-   - `GEMINI_API_KEY`: *(Your Google Gemini API Key for the live AI Sommelier)*
+### Deploying Backend on Render & Frontend on Vercel
+
+#### Step 1: Deploy Backend to Render
+1. Go to [render.com](https://render.com) and log in with your GitHub account.
+2. Click **"New +" → "Web Service"**.
+3. Select your GitHub repository: `https://github.com/prashantpandey7658-dotcom/-NCRB-BOOZE-COMPARE`.
+4. Fill in the following settings:
+   - **Name**: `ncrb-booze-compare-api`
+   - **Language / Runtime**: `Python 3`
+   - **Build Command**: `pip install -r requirements.txt`
+   - **Start Command**: `gunicorn backend.app:app`
+   - **Plan**: `Free`
+5. Under **Environment Variables**, add:
+   - `FLASK_ENV`: `production`
    - `SECRET_KEY`: `ncrb-luxury-cellar-secret-key-2026`
-5. Click **Deploy**. Vercel will build the React SPA, launch the Python serverless API, and host your app live!
+   - `GEMINI_MODEL`: `gemini-1.5-flash`
+   - *(Optional)* `GEMINI_API_KEY`: *(Your Google Gemini API Key for live AI Sommelier)*
+6. Click **"Create Web Service"**.
+7. Once deployed, copy your live Render URL (e.g., `https://ncrb-booze-compare-api.onrender.com`).
+
+#### Step 2: Deploy Frontend to Vercel
+1. Go to [vercel.com](https://vercel.com) and click **"Add New…" → "Project"**.
+2. Select your GitHub repository: `-NCRB-BOOZE-COMPARE`.
+3. In Project Settings:
+   - Set **Root Directory** to `frontend` (click "Edit" next to Root Directory, select `frontend`, and click "Continue").
+   - Framework Preset will automatically be detected as **Vite**.
+4. Under **Environment Variables**, add:
+   - **Key**: `VITE_API_URL`
+   - **Value**: `https://<YOUR-RENDER-BACKEND-NAME>.onrender.com/api` *(paste your Render URL from Step 1 with `/api`)*
+5. Click **"Deploy"**. Vercel will build and host your frontend on high-speed global CDN with direct connections to your Render API!
 
 ---
 
