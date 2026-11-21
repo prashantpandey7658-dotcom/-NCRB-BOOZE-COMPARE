@@ -1,11 +1,14 @@
 import axios from 'axios';
 
-// Automatically use relative '/api' in production (Vercel) or VITE_API_URL, fallback to localhost:5050 in local dev
-const API_BASE_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '/api' : 'http://127.0.0.1:5050/api');
+// Live Render backend URL
+const LIVE_RENDER_API = 'https://ncrb-booze-compare.onrender.com/api';
+
+// Connect to VITE_API_URL or production Render backend, fallback to localhost:5050 in local dev
+const API_BASE_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? LIVE_RENDER_API : 'http://127.0.0.1:5050/api');
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 10000,
+  timeout: 15000,
   headers: {
     'Content-Type': 'application/json',
   },
